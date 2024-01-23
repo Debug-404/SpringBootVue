@@ -9,6 +9,9 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
     (request) => {
+        if (localStorage.getItem("token")) {
+            request.headers.token = localStorage.getItem("token")
+        }
         return request
     }, (error) => {
         return Promise.reject(error)
