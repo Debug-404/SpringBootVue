@@ -8,19 +8,17 @@
     </el-col>
     <el-col :lg="6" :md="12" :xs="24">
       <div class="flex items-center flex-col">
-        <h1 class="text-gray-500 text-3xl mb-6">-账号密码登录-</h1>
+        <h1 class="text-gray-500 text-3xl mb-6">-学号密码登录-</h1>
         <el-form ref="ruleFormRef" :model="formInline" :rules="rules" label-position="left" label-width="70px"
                  style="width: 300px">
           <el-form-item label="账号" prop="user">
             <el-input v-model="formInline.user" :prefix-icon="User" placeholder="user"/>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="formInline.password" :prefix-icon="Lock" placeholder="password" show-password
-                      type="password"/>
+            <el-input v-model="formInline.password" :prefix-icon="Lock" placeholder="password" show-password/>
           </el-form-item>
           <el-form-item>
-            <el-button class="w-[250px]" round type="primary" @click="onSubmit">登录
-            </el-button>
+            <el-button class="w-[250px]" round type="primary" @click="onSubmit">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -28,15 +26,15 @@
   </el-row>
 </template>
 <script lang="ts" setup>
-import {reactive, onBeforeMount, ref} from 'vue';
+import {reactive, ref, onBeforeMount} from 'vue';
 import {User, Lock} from "@element-plus/icons-vue"
 import {ElNotification} from "element-plus";
 import imgUrl from "@/assets/img/01.jpg"
 import {useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
-import {login} from "@/utils/http";
+import {login} from "@/utils/api";
 import {setToKen} from "@/utils/tokenUtils";
-
+import http from "@/utils/index";
 
 const router = useRouter()
 const Store = useCounterStore()
@@ -48,16 +46,10 @@ type Student = {
   roomNo?: string
 }
 
-type  Result = {
-  code: string;
-  message: string;
-  data?: any;
-}
-
 const rules = {
   user: [
     {required: true, message: "用户名不能为空", trigger: "blur"},
-    {min: 3, max: 5, message: "用户名长度是3-5", trigger: "blur"},
+    {min: 10, max: 10, message: "用户名长度是10", trigger: "blur"},
   ],
   password: [
     {required: true, message: "密码不能为空", trigger: "blur"},
@@ -65,10 +57,24 @@ const rules = {
   ],
 }
 
-let formInline = reactive({
-  user: "",
-  password: "",
+
+//test
+onBeforeMount(() => {
+  if (false) login("0912200201", "123456")
+      .then(
+          (data) => {
+            console.log(data)
+          }
+      )
+  if (true) http.post("/register", {
+    "name": "地瓜",
+    "电话": "001",
+    "性别": 1
+  }).then((data) => {
+    console.log(data)
+  })
 })
+
 
 // onBeforeMount(async () => {
 //   let data = await request.get("/get")
@@ -83,6 +89,10 @@ let formInline = reactive({
 // })
 
 let ruleFormRef = ref()
+let formInline = reactive({
+  user: "",
+  password: "",
+})
 //登录提交表单并且设置token
 const onSubmit = () => {
   ruleFormRef.value.validate((flag: Boolean) => {
@@ -90,10 +100,10 @@ const onSubmit = () => {
       login(formInline.user, formInline.user)
           .then(
               (data: any) => {
-                if (data["code"]) {
+                if (data["code"] === 200) {
                   Store.setUser(formInline.user)
-                  setToKen(data["token"])
-                  router.push({path: "/"})
+                  setToKen(data.data["token"])
+                  //router.push({path: "/"})
                   ElNotification({"title": formInline.user, "message": data["msg"], "type": "success"})
                 } else ElNotification({"title": "Error", "message": data["msg"], "type": "error"})
               },

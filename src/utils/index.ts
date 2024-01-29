@@ -1,7 +1,8 @@
 import axios from "axios"
+import {getToKen} from "@/utils/tokenUtils";
 
 const request = axios.create({
-    baseURL: "/api",
+    baseURL: "api",
     timeout: 5000,
     headers: {"Content-Type": "application/json"}
 })
@@ -9,8 +10,8 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
     (request) => {
-        if (localStorage.getItem("token")) {
-            request.headers.token = localStorage.getItem("token")
+        if (getToKen()) {
+            request.headers.token = getToKen()
         }
         return request
     }, (error) => {
