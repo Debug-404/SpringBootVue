@@ -9,7 +9,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "首页"
         }
-    }
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        component: () => import("@/views/404/index.vue"),
+        meta: {
+            title: "页面不存在",
+        },
+    },
 ]
 
 const router = createRouter({
