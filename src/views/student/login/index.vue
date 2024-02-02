@@ -32,7 +32,7 @@ import {ElNotification} from "element-plus";
 import imgUrl from "@/assets/img/01.jpg"
 import {useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
-import {login} from "@/utils/api";
+import {login} from "@/api/student";
 import {setToKen} from "@/utils/tokenUtils";
 import http from "@/utils/index";
 
@@ -66,7 +66,7 @@ onBeforeMount(() => {
             console.log(data)
           }
       )
-  if (true) http.post("/register", {
+  if (false) http.post("/register", {
     "name": "地瓜",
     "电话": "001",
     "性别": 1
@@ -97,9 +97,10 @@ let formInline = reactive({
 const onSubmit = () => {
   ruleFormRef.value.validate((flag: Boolean) => {
     if (flag) {
-      login(formInline.user, formInline.user)
+      login(formInline.user, formInline.password)
           .then(
               (data: any) => {
+                console.log(data)
                 if (data["code"] === 200) {
                   Store.setUser(formInline.user)
                   setToKen(data.data["token"])
