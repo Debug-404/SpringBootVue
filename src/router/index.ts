@@ -4,7 +4,7 @@ import type {RouteRecordRaw} from "vue-router"
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        name: "home",
+        name: "login",
         component: () => import("@/views/student/login/index.vue"),
         meta: {
             title: "首页"

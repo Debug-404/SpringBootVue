@@ -16,6 +16,7 @@
     "element-plus": "^2.3.3",
     "js-cookie": "^3.0.5",
     "pinia": "^2.0.32",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "plus": "^0.1.0",
     "sass": "^1.70.0",
     "vue": "^3.2.47",
