@@ -25,6 +25,13 @@
     </el-col>
   </el-row>
 </template>
+<script lang="ts">
+import {defineComponent} from 'vue'
+
+export default defineComponent({
+  name: "login"
+})
+</script>
 <script lang="ts" setup>
 import {reactive, ref, onBeforeMount} from 'vue';
 import {User, Lock} from "@element-plus/icons-vue"
