@@ -11,6 +11,34 @@ const routes: Array<RouteRecordRaw> = [
         }
     },
     {
+        path: "/system",
+        name: "system",
+        component: () => import("@/views/student/system/index.vue"),
+        redirect: "/system/test",
+        children: [
+            {
+                path: "test",
+                name: "测试",
+                component: () => import("@/views/student/repair/repair.vue"),
+                meta: {}
+            },
+            {
+                path: "test2",
+                name: "测试2",
+                component: () => import("@/components/test2.vue"),
+                meta: {}
+            }, {
+                path: "test3",
+                name: "测试3",
+                component: () => import("@/components/test3.vue"),
+                meta: {}
+            },
+        ],
+        meta: {
+            title: "管理页"
+        }
+    },
+    {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
         component: () => import("@/views/404/index.vue"),

@@ -4,7 +4,8 @@ import {getToKen} from "@/utils/tokenUtils";
 export const useCounterStore = defineStore("main", {
     state: () => {
         return {
-            user: "",
+            userId: "0912200201",
+            userName: "测试用户",
             token: getToKen(),
             Count: 0
         }
@@ -18,11 +19,11 @@ export const useCounterStore = defineStore("main", {
     //可以操作异步 和 同步提交state
     actions: {
         setUser(user: string) {
-            this.user = user
+            this.userName = user
             localStorage.setItem("user", user)
         },
         removeUser() {
-            this.user = "";
+            this.userName = "";
             localStorage.clear();
         }
     }
