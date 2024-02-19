@@ -12,7 +12,7 @@
       <el-form-item label="报修人" prop="name">
         <el-input v-model="ruleForm.name"/>
       </el-form-item>
-      <el-form-item label="联系方式" prop="phone">
+      <el-form-item label="手机号码" prop="phone">
         <el-input v-model="ruleForm.phone"/>
       </el-form-item>
       <el-form-item label="报修区域" prop="region">
@@ -26,12 +26,8 @@
         <el-input v-model="ruleForm.roomNo"/>
       </el-form-item>
       <el-form-item label="报修项目" prop="type">
-        <el-checkbox-group v-model="ruleForm.type">
-          <el-checkbox label="Online activities" name="type"/>
-          <el-checkbox label="Promotion activities" name="type"/>
-          <el-checkbox label="Offline activities" name="type"/>
-          <el-checkbox label="Simple brand exposure" name="type"/>
-        </el-checkbox-group>
+        <el-cascader v-model="ruleForm.type" :options="option" :show-all-levels="false"
+                     clearable/>
       </el-form-item>
       <el-form-item label="报修详情" prop="desc">
         <el-input v-model="ruleForm.details" type="textarea"/>
@@ -50,29 +46,23 @@ import type {FormInstance, FormRules} from 'element-plus'
 import {ElNotification} from "element-plus";
 import {useCounterStore} from "@/stores";
 import {repair} from "@/api/student";
+import option from '@/assets/data/typeInfo'
 
-interface RuleForm {
-  name: string,
-  phone: string
-  region: string
-  roomNo: string
-  type: string
-  details: string
-}
 
 const Store = useCounterStore()
 const formSize = ref('default')
+
 const ruleFormRef = ref<FormInstance>()
 let formData = {
-  name: 'aaa',
-  phone: '11111111111',
+  name: '',
+  phone: '',
   region: '',
-  roomNo: '3536',
-  type: "水电",
+  roomNo: '',
+  type: [''],
   details: '',
 }
 
-const ruleForm = reactive<RuleForm>(formData)
+const ruleForm = reactive(formData)
 
 const rules = reactive({
   name: [
@@ -85,7 +75,12 @@ const rules = reactive({
   ],
   region: [
     {
-      required: true, message: 'Please select Activity count', trigger: 'change'
+      required: true, message: 'Please select Activity count', trigger: 'blur'
+    }
+  ],
+  type: [
+    {
+      required: true, message: '请选择类型', trigger: 'blur',
     }
   ],
   roomNo: [
@@ -94,6 +89,7 @@ const rules = reactive({
     }
   ],
 })
+
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -108,6 +104,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             })
           })
     } else {
+      console.log(ruleForm.type)
       //console.log(new Date(formData.time).toLocaleDateString())
       console.log('error submit!', fields)
     }

@@ -7,36 +7,40 @@ const routes: Array<RouteRecordRaw> = [
         name: "login",
         component: () => import("@/views/student/login/index.vue"),
         meta: {
-            title: "首页"
+            title: "登录"
         }
     },
     {
         path: "/system",
         name: "system",
         component: () => import("@/views/student/system/index.vue"),
-        redirect: "/system/test",
+        redirect: "/system/home",
         children: [
             {
-                path: "test",
-                name: "测试",
-                component: () => import("@/views/student/repair/repair.vue"),
-                meta: {}
+                path: "repair",
+                name: "repair",
+                component: () => import("@/views/student/repair/index.vue"),
+                meta: {
+                    title: "报修提交"
+                }
             },
             {
-                path: "test2",
-                name: "测试2",
-                component: () => import("@/components/test2.vue"),
-                meta: {}
-            }, {
+                path: "home",
+                name: "home",
+                component: () => import("@/views/student/home/index.vue"),
+                meta: {
+                    title: "首页"
+                }
+            },
+            {
                 path: "test3",
                 name: "测试3",
                 component: () => import("@/components/test3.vue"),
-                meta: {}
+                meta: {
+                    title: "测试3"
+                }
             },
         ],
-        meta: {
-            title: "管理页"
-        }
     },
     {
         path: "/:pathMatch(.*)*",

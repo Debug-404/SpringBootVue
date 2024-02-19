@@ -46,13 +46,6 @@ import http from "@/utils/index";
 const router = useRouter()
 const Store = useCounterStore()
 
-type Student = {
-  id: string,
-  name: string,
-  phone?: string,
-  roomNo?: string
-}
-
 const rules = {
   user: [
     {required: true, message: "用户名不能为空", trigger: "blur"},
@@ -63,37 +56,6 @@ const rules = {
     {min: 6, max: 20, message: "密码长度是6-20", trigger: "blur"},
   ],
 }
-
-
-//test
-onBeforeMount(() => {
-  if (false) login("0912200201", "123456")
-      .then(
-          (data) => {
-            console.log(data)
-          }
-      )
-  if (false) http.post("/register", {
-    "name": "地瓜",
-    "电话": "001",
-    "性别": 1
-  }).then((data) => {
-    console.log(data)
-  })
-})
-
-
-// onBeforeMount(async () => {
-//   let data = await request.get("/get")
-//   Data.arr = data.data.map((value: Student) => {
-//     return {
-//       id: value.id,
-//       name: value.name,a
-//       phone: value.phone,
-//       roomNo: value.roomNo
-//     }
-//   })
-// })
 
 let ruleFormRef = ref()
 let formInline = reactive({
@@ -107,13 +69,12 @@ const onSubmit = () => {
       login(formInline.user, formInline.password)
           .then(
               (data: any) => {
-                console.log(data)
-                if (data["code"] === 200) {
+                if (data.data["code"] === 200) {
                   Store.setUser(formInline.user)
                   setToKen(data.data["token"])
-                  //router.push({path: "/"})
-                  ElNotification({"title": formInline.user, "message": data["msg"], "type": "success"})
-                } else ElNotification({"title": "Error", "message": data["msg"], "type": "error"})
+                  router.push({path: "/system"})
+                  ElNotification({"title": formInline.user, "message": data.data["message"], "type": "success"})
+                } else ElNotification({"title": "Error", "message": data.data["message"], "type": "error"})
               },
           )
     } else ElNotification({"title": "Error", "message": "操作失败", "type": "error"})

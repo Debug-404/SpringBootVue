@@ -4,27 +4,33 @@
       <el-scrollbar>
         <el-menu :collapse="Collapse" :default-openeds="['1',]" :router="true" background-color="rgb(48, 65, 86)"
                  text-color="#fff">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon>
-                <location/>
-              </el-icon>
-              <span>选项</span>
-            </template>
-            <el-menu-item-group>
-              <template #title><span>Group One</span></template>
-              <el-menu-item index="/system/test2">item one</el-menu-item>
-              <el-menu-item index="/system/test3">item two</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group Two">
-              <el-menu-item index="1-3">item three</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title><span>item four</span></template>
-              <el-menu-item index="1-4-1">item one</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-menu-item index="/system/test">
+          <!--          <el-sub-menu index="1">-->
+          <!--            <template #title>-->
+          <!--              <el-icon>-->
+          <!--                <location/>-->
+          <!--              </el-icon>-->
+          <!--              <span>选项</span>-->
+          <!--            </template>-->
+          <!--            <el-menu-item-group>-->
+          <!--              <template #title><span>Group One</span></template>-->
+          <!--              <el-menu-item index="/system/test2">item one</el-menu-item>-->
+          <!--              <el-menu-item index="/system/test3">item two</el-menu-item>-->
+          <!--            </el-menu-item-group>-->
+          <!--            <el-menu-item-group title="Group Two">-->
+          <!--              <el-menu-item index="1-3">item three</el-menu-item>-->
+          <!--            </el-menu-item-group>-->
+          <!--            <el-sub-menu index="1-4">-->
+          <!--              <template #title><span>item four</span></template>-->
+          <!--              <el-menu-item index="1-4-1">item one</el-menu-item>-->
+          <!--            </el-sub-menu>-->
+          <!--          </el-sub-menu>-->
+          <el-menu-item index="/system/home">
+            <el-icon>
+              <Calendar/>
+            </el-icon>
+            <template #title>告示</template>
+          </el-menu-item>
+          <el-menu-item index="/system/repair">
             <el-icon>
               <document/>
             </el-icon>
@@ -70,7 +76,7 @@
 import {RouterView} from 'vue-router'
 import {ref, computed} from 'vue'
 import {
-  Document, Menu as IconMenu, Location, Message, Setting,
+  Document, Setting, Calendar
 } from '@element-plus/icons-vue'
 import {Fold, Expand} from '@element-plus/icons-vue'
 import {useCounterStore} from "@/stores";

@@ -26,7 +26,7 @@ export default defineConfig({
         }
     },
     server: {
-        // port: 8089,
+        port: 6060,
         cors: true, //前端跨域
         proxy: {
             "/api": {
