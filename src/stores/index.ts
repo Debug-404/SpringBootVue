@@ -6,16 +6,13 @@ export const useCounterStore = defineStore("main", {
         return {
             userId: "",
             userName: "",
+            isLogin: false,
+            identity: '',
             token: getToKen(),
-            Count: 0
         }
     },
     //计算属性
-    getters: {
-        doubleCount(): number {
-            return this.Count * 2
-        }
-    },
+    getters: {},
     //可以操作异步 和 同步提交state
     actions: {
         setUser(userId: string) {

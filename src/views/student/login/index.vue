@@ -33,7 +33,7 @@ export default defineComponent({
 })
 </script>
 <script lang="ts" setup>
-import {reactive, ref, onBeforeMount} from 'vue';
+import {reactive, ref} from 'vue';
 import {User, Lock} from "@element-plus/icons-vue"
 import {ElNotification} from "element-plus";
 import imgUrl from "@/assets/img/01.jpg"
@@ -41,7 +41,6 @@ import {useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
 import {login} from "@/api/student";
 import {setToKen} from "@/utils/tokenUtils";
-import http from "@/utils/index";
 
 const router = useRouter()
 const Store = useCounterStore()

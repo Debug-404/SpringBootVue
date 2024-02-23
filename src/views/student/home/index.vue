@@ -18,9 +18,7 @@
 <script lang="ts" setup>
 import {onBeforeMount, ref} from "vue";
 import {getNotice} from "@/api/admin";
-import {markRaw} from 'vue'
 import {ElMessageBox} from 'element-plus'
-import {Message} from '@element-plus/icons-vue'
 
 let data = ref([])
 
@@ -31,8 +29,6 @@ onBeforeMount(async () => {
 })
 const open = (item: any) => {
   ElMessageBox.alert(item.text, item.title, {
-    // if you want to disable its autofocus
-    // autofocus: false,
     confirmButtonText: '关闭',
     draggable: true,
     type: 'info',

@@ -2,28 +2,8 @@
   <el-container class="layout-container-demo" style="height: 100%">
     <el-aside style="" width="auto">
       <el-scrollbar>
-        <el-menu :collapse="Collapse" :default-openeds="['1',]" :router="true" background-color="rgb(48, 65, 86)"
+        <el-menu :collapse="Collapse" :router="true" background-color="rgb(48, 65, 86)"
                  text-color="#fff">
-          <!--          <el-sub-menu index="1">-->
-          <!--            <template #title>-->
-          <!--              <el-icon>-->
-          <!--                <location/>-->
-          <!--              </el-icon>-->
-          <!--              <span>选项</span>-->
-          <!--            </template>-->
-          <!--            <el-menu-item-group>-->
-          <!--              <template #title><span>Group One</span></template>-->
-          <!--              <el-menu-item index="/system/test2">item one</el-menu-item>-->
-          <!--              <el-menu-item index="/system/test3">item two</el-menu-item>-->
-          <!--            </el-menu-item-group>-->
-          <!--            <el-menu-item-group title="Group Two">-->
-          <!--              <el-menu-item index="1-3">item three</el-menu-item>-->
-          <!--            </el-menu-item-group>-->
-          <!--            <el-sub-menu index="1-4">-->
-          <!--              <template #title><span>item four</span></template>-->
-          <!--              <el-menu-item index="1-4-1">item one</el-menu-item>-->
-          <!--            </el-sub-menu>-->
-          <!--          </el-sub-menu>-->
           <el-menu-item index="/system/home">
             <el-icon>
               <Calendar/>
@@ -131,3 +111,4 @@ const userName = computed(() => {
   height: calc(100vh);
 }
 </style>
+

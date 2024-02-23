@@ -10,6 +10,16 @@ export function repair(sid: string, data: any) {
     return http.post("/stu/repair", {sid, ...data})
 }
 
+export function load(pageNum: Number, pageSize: Number, search: String) {
+    return http.get("/stu/find", {
+        params: {
+            pageNum,
+            pageSize,
+            search
+        }
+    })
+}
+
 export function getStudent(data: any) {
     return http.post("/stu/getStudent", {...data})
 }
