@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus" ;
 
 export default {
     name: "BuildingInfo",
@@ -45,7 +45,7 @@ export default {
         setTimeout(() => {
             //设置延迟执行
             this.loading = false;
-        }, 1000);
+        }, 100);
     },
     methods: {
         async load() {
@@ -56,9 +56,8 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -71,9 +70,8 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -83,7 +81,9 @@ export default {
         add() {
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
                 this.disabled = false;
                 this.form = {};
                 this.judge = false;
@@ -95,8 +95,7 @@ export default {
                     if (this.judge === false) {
                         //新增
                         request.post("/building/add", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
                                     type: "success",
@@ -106,7 +105,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -115,7 +114,7 @@ export default {
                         //修改
                         request.put("/building/update", this.form).then((res) => {
                             console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "修改成功",
                                     type: "success",
@@ -125,7 +124,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -135,7 +134,9 @@ export default {
             });
         },
         cancel() {
-            this.$refs.form.resetFields();
+            if (this.$refs.form !== undefined) {
+                this.$refs.form.resetFields()
+            }
             this.dialogVisible = false;
         },
         handleEdit(row) {
@@ -143,16 +144,17 @@ export default {
             this.judge = true;
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
                 // 生拷贝
                 this.form = JSON.parse(JSON.stringify(row));
                 this.disabled = true;
             });
         },
         handleDelete(id) {
-            console.log(id);
             request.delete("/building/delete/" + id).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -161,7 +163,7 @@ export default {
                     this.load();
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }

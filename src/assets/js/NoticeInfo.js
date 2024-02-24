@@ -1,7 +1,8 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 import E from "wangeditor";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus"
+
 let editor;
 export default {
     name: "BuildingInfo",
@@ -25,21 +26,21 @@ export default {
             form: {
                 id: "",
                 title: "",
-                content: "",
+                text: "",
                 author: "",
-                releaseTime: "",
+                time: "",
             },
             rules: {
                 title: [{required: true, message: "请输入标题", trigger: "blur"}],
-                content: [{required: true, message: "请输入内容", trigger: "blur"}],
-                releaseTime: [
+                text: [{required: true, message: "请输入内容", trigger: "blur"}],
+                time: [
                     {required: true, message: "请选择时间", trigger: "blur"},
                 ],
             },
         };
     },
     created() {
-        this.getSessionInfo();
+        //this.getSessionInfo();
         this.load();
         this.loading = true;
         setTimeout(() => {
@@ -58,9 +59,9 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                console.log(res.data);
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -74,7 +75,7 @@ export default {
                 },
             }).then((res) => {
                 console.log(res);
-                this.tableData = res.data.records;
+                this.tableData = res.data.data;
                 this.total = res.data.total;
                 this.loading = false;
             });
@@ -97,7 +98,9 @@ export default {
             console.log(this.form.author);
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
                 //加载wangEdit
                 editor = new E("#div1");
                 editor.create();
@@ -107,16 +110,14 @@ export default {
             });
         },
         save() {
-            this.form.content = editor.txt.html(); //获取编辑器内容并赋值
+            this.form.text = editor.txt.html(); //获取编辑器内容并赋值
             this.form.author = this.author;
-            console.log(this.form.author);
             this.$refs.form.validate((valid) => {
                 if (valid) {
                     if (this.judge === false) {
                         //新增
                         request.post("/notice/add", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
                                     type: "success",
@@ -126,36 +127,39 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
                         });
                     } else {
                         //修改
-                        request.put("/notice/update", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === "0") {
-                                ElMessage({
-                                    message: "修改成功",
-                                    type: "success",
-                                });
-                                this.search = "";
-                                this.load();
-                                this.dialogVisible = false;
-                            } else {
-                                ElMessage({
-                                    message: res.msg,
-                                    type: "error",
-                                });
-                            }
-                        });
+                        request.put("/notice/update", this.form)
+                            .then((res) => {
+                                console.log(res.data);
+                                if (res.data.code === 200) {
+                                    ElMessage({
+                                        message: "修改成功",
+                                        type: "success",
+                                    });
+                                    this.search = "";
+                                    this.load();
+                                    this.dialogVisible = false;
+                                } else {
+                                    ElMessage({
+                                        message: res.data.message,
+                                        type: "error",
+                                    });
+                                }
+                            });
                     }
                 }
             });
         },
         cancel() {
-            this.$refs.form.resetFields();
+            if (this.$refs.form !== undefined) {
+                this.$refs.form.resetFields()
+            }
             editor.txt.clear();
             editor.destroy();
             this.dialogVisible = false;
@@ -165,7 +169,9 @@ export default {
             this.judge = true;
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
                 //加载wangEdit
                 editor = new E("#div1");
                 editor.create();
@@ -178,7 +184,7 @@ export default {
         handleDelete(id) {
             console.log(id);
             request.delete("/notice/delete/" + id).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -187,7 +193,7 @@ export default {
                     this.load();
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }

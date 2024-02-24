@@ -1,19 +1,20 @@
 <template>
-  <el-menu :default-active="route.path" router style="width: 200px; height:100%; min-height: calc(100vh - 40px)"
-    unique-opened>
+  <el-menu :default-active="Data.path" :router="true" router
+           style="width: 200px; height:100%; min-height: calc(100vh - 40px)"
+           unique-opened>
     <div style="display: flex;align-items: center;justify-content: center;padding: 11px 0;">
       <img alt="" src="@/assets/logo.png" style="width: 60px;">
     </div>
     <el-menu-item index="/home">
       <el-icon>
-        <House />
+        <House/>
       </el-icon>
       <span>首页</span>
     </el-menu-item>
     <el-sub-menu v-if="judgeIdentity() !== 0" index="2">
       <template #title>
         <el-icon>
-          <User />
+          <User/>
         </el-icon>
         <span>用户管理</span>
       </template>
@@ -23,7 +24,7 @@
     <el-sub-menu v-if="judgeIdentity() !== 0" index="3">
       <template #title>
         <el-icon>
-          <Coin />
+          <Coin/>
         </el-icon>
         <span>宿舍管理</span>
       </template>
@@ -33,7 +34,7 @@
     <el-sub-menu v-if="judgeIdentity() !== 0" index="4">
       <template #title>
         <el-icon>
-          <Message />
+          <Message/>
         </el-icon>
         <span>信息管理</span>
       </template>
@@ -43,7 +44,7 @@
     <el-sub-menu v-if="judgeIdentity() !== 0" index="5">
       <template #title>
         <el-icon>
-          <PieChart />
+          <PieChart/>
         </el-icon>
         <span>申请管理</span>
       </template>
@@ -51,34 +52,34 @@
     </el-sub-menu>
     <el-menu-item v-if="judgeIdentity() !== 0" index="/visitorInfo">
       <svg class="icon" data-v-042ca774="" style="height: 18px; margin-right: 11px;" viewBox="0 0 1024 1024"
-        xmlns="http://www.w3.org/2000/svg">
+           xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M512 160c320 0 512 352 512 352S832 864 512 864 0 512 0 512s192-352 512-352zm0 64c-225.28 0-384.128 208.064-436.8 288 52.608 79.872 211.456 288 436.8 288 225.28 0 384.128-208.064 436.8-288-52.608-79.872-211.456-288-436.8-288zm0 64a224 224 0 110 448 224 224 0 010-448zm0 64a160.192 160.192 0 00-160 160c0 88.192 71.744 160 160 160s160-71.808 160-160-71.744-160-160-160z"
-          fill="currentColor"></path>
+            d="M512 160c320 0 512 352 512 352S832 864 512 864 0 512 0 512s192-352 512-352zm0 64c-225.28 0-384.128 208.064-436.8 288 52.608 79.872 211.456 288 436.8 288 225.28 0 384.128-208.064 436.8-288-52.608-79.872-211.456-288-436.8-288zm0 64a224 224 0 110 448 224 224 0 010-448zm0 64a160.192 160.192 0 00-160 160c0 88.192 71.744 160 160 160s160-71.808 160-160-71.744-160-160-160z"
+            fill="currentColor"></path>
       </svg>
       <span>访客管理</span>
     </el-menu-item>
     <el-menu-item v-if="judgeIdentity() === 0" index="/myRoomInfo">
       <el-icon>
-        <School />
+        <School/>
       </el-icon>
       <span>我的宿舍</span>
     </el-menu-item>
     <el-menu-item v-if="judgeIdentity() === 0" index="/applyChangeRoom">
       <el-icon>
-        <TakeawayBox />
+        <TakeawayBox/>
       </el-icon>
       <span>申请调宿</span>
     </el-menu-item>
     <el-menu-item v-if="judgeIdentity() === 0" index="/applyRepairInfo">
       <el-icon>
-        <SetUp />
+        <SetUp/>
       </el-icon>
       <span>报修申请</span>
     </el-menu-item>
     <el-menu-item index="/selfInfo">
       <el-icon>
-        <Setting />
+        <Setting/>
       </el-icon>
       <span>个人信息</span>
     </el-menu-item>
@@ -86,11 +87,11 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from "vue"
+import {onMounted, reactive} from "vue"
 
-import { Coin, House, Message, PieChart, School, Setting, SetUp, TakeawayBox, User } from "@element-plus/icons-vue"
-import { useRoute, useRouter } from "vue-router"
-import { useCounterStore } from "@/stores"
+import {Coin, House, Message, PieChart, School, Setting, SetUp, TakeawayBox, User} from "@element-plus/icons-vue"
+import {useRoute, useRouter} from "vue-router"
+import {useCounterStore} from "@/stores"
 
 const router = useRouter()
 const route = useRoute()

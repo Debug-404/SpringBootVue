@@ -6,7 +6,7 @@
 import * as echarts from 'echarts';
 import request from "@/utils/index";
 
-require("echarts/theme/macarons");
+import "echarts/theme/macarons.js"
 
 export default {
   name: "home_echarts",
@@ -76,12 +76,12 @@ export default {
     getBuildingNum() {
       //xAxis.data
       request.get("/building/getBuildingName").then(res => {
-        if (res.code === '200') {
-          this.option.xAxis.data = res.data
+        if (res.data.code === 200) {
+          this.option.xAxis.data = res.data.data
           //series.data
-          request.get("/room/getEachBuildingStuNum/" + res.data.length).then(result => {
-            if (result.code === '200') {
-              this.option.series[0].data = result.data
+          request.get("/room/getEachBuildingStuNum/" + res.data.data.length).then(result => {
+            if (result.data.code === 200) {
+              this.option.series[0].data = result.data.data
             }
           })
         }

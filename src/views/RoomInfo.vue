@@ -13,10 +13,10 @@
           <div style="margin: 10px 0">
             <el-input v-model="search" clearable placeholder="请输入房间号" prefix-icon="Search" style="width: 20%"/>
             <el-button icon="Search" style="margin-left: 5px" type="primary" @click="load"></el-button>
-            <el-button icon="refresh-left" style="margin-left: 10px" type="default" @click="reset"></el-button>
+            <el-button icon="RefreshLeft" style="margin-left: 10px" @click="reset"></el-button>
             <div style="float: right">
               <el-tooltip content="添加" placement="top">
-                <el-button icon="plus" style="width: 50px" type="primary" @click="add"></el-button>
+                <el-button icon="Plus" style="width: 50px" type="primary" @click="add"></el-button>
               </el-tooltip>
             </div>
           </div>
@@ -24,121 +24,6 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <!-- 床位展开-->
-          <el-table-column type="expand">
-            <template #default="props">
-              <el-form inline label-position="left">
-                <el-form-item label="一号床位" class="item">
-                  <template #default="scope">
-                    <el-tag v-if="props.row.firstBed != null" disable-transitions type="primary"
-                    >{{ props.row.firstBed }}
-                    </el-tag>
-                    <div class="el-form--inline-icon">
-                      <el-icon v-if="props.row.firstBed == null" @click="plusIcon(1, props.row)">
-                        <plus/>
-                      </el-icon>
-                      <div v-if="props.row.firstBed != null" class="el-form--inline-icon">
-                        <el-icon @click="detailIcon(1, props.row)">
-                          <more-filled/>
-                        </el-icon>
-                        <el-icon @click="editIcon(1, props.row)">
-                          <edit/>
-                        </el-icon>
-                        <el-popconfirm title="确认删除？" @confirm="deleteStuBed(1, props.row)">
-                          <template #reference>
-                            <el-icon>
-                              <delete/>
-                            </el-icon>
-                          </template>
-                        </el-popconfirm>
-                      </div>
-                    </div>
-                  </template>
-                </el-form-item>
-                <el-form-item label="二号床位" class="item">
-                  <template #default="scope">
-                    <el-tag v-if="props.row.secondBed != null" disable-transitions type="primary"
-                    >{{ props.row.secondBed }}
-                    </el-tag>
-                    <div class="el-form--inline-icon">
-                      <el-icon v-if="props.row.secondBed == null" @click="plusIcon(2, props.row)">
-                        <plus/>
-                      </el-icon>
-                      <div v-if="props.row.secondBed != null" class="el-form--inline-icon">
-                        <el-icon @click="detailIcon(2, props.row)">
-                          <more-filled/>
-                        </el-icon>
-                        <el-icon @click="editIcon(2, props.row)">
-                          <edit/>
-                        </el-icon>
-                        <el-popconfirm title="确认删除？" @confirm="deleteStuBed(2, props.row)">
-                          <template #reference>
-                            <el-icon>
-                              <delete/>
-                            </el-icon>
-                          </template>
-                        </el-popconfirm>
-                      </div>
-                    </div>
-                  </template>
-                </el-form-item>
-                <el-form-item label="三号床位" class="item">
-                  <template #default="scope">
-                    <el-tag v-if="props.row.thirdBed != null" disable-transitions type="primary"
-                    >{{ props.row.thirdBed }}
-                    </el-tag>
-                    <div class="el-form--inline-icon">
-                      <el-icon v-if="props.row.thirdBed == null" @click="plusIcon(3, props.row)">
-                        <plus/>
-                      </el-icon>
-                      <div v-if="props.row.thirdBed != null" class="el-form--inline-icon">
-                        <el-icon @click="detailIcon(3, props.row)">
-                          <more-filled/>
-                        </el-icon>
-                        <el-icon @click="editIcon(3, props.row)">
-                          <edit/>
-                        </el-icon>
-                        <el-popconfirm title="确认删除？" @confirm="deleteStuBed(3, props.row)">
-                          <template #reference>
-                            <el-icon>
-                              <delete/>
-                            </el-icon>
-                          </template>
-                        </el-popconfirm>
-                      </div>
-                    </div>
-                  </template>
-                </el-form-item>
-                <el-form-item label="四号床位" class="item">
-                  <template #default="scope">
-                    <el-tag v-if="props.row.fourthBed != null" disable-transitions type="primary"
-                    >{{ props.row.fourthBed }}
-                    </el-tag>
-                    <div class="el-form--inline-icon">
-                      <el-icon v-if="props.row.fourthBed == null" @click="plusIcon(4, props.row)">
-                        <plus/>
-                      </el-icon>
-                      <div v-if="props.row.fourthBed != null" class="el-form--inline-icon">
-                        <el-icon @click="detailIcon(4, props.row)">
-                          <more-filled/>
-                        </el-icon>
-                        <el-icon @click="editIcon(4, props.row)">
-                          <edit/>
-                        </el-icon>
-                        <el-popconfirm title="确认删除？" @confirm="deleteStuBed(4, props.row)">
-                          <template #reference>
-                            <el-icon>
-                              <delete/>
-                            </el-icon>
-                          </template>
-                        </el-popconfirm>
-                      </div>
-                    </div>
-                  </template>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
           <el-table-column label="房间号" prop="dormRoomId" sortable/>
           <el-table-column label="楼栋号" prop="dormBuildId" sortable/>
           <el-table-column label="楼层" prop="floorNum" sortable/>
@@ -175,7 +60,7 @@
           <el-pagination
               v-model:currentPage="currentPage"
               :page-size="pageSize"
-              :page-sizes="[10, 20]"
+              :page-sizes="[10]"
               :total="total"
               layout="total, sizes, prev, pager, next, jumper"
               @size-change="handleSizeChange"
@@ -214,13 +99,13 @@
           <el-dialog v-model="bedDialog" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="楼栋号" prop="dormBuildId">
-                <el-input v-model.number="form.dormBuildId" disabled="true" style="width: 80%"></el-input>
+                <el-input v-model.number="form.dormBuildId" :disabled="true" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="楼层数" prop="floorNum">
-                <el-input v-model.number="form.floorNum" disabled="true" style="width: 80%"></el-input>
+                <el-input v-model.number="form.floorNum" :disabled="true" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="房间号" prop="dormRoomId">
-                <el-input v-model.number="form.dormRoomId" disabled="true" style="width: 80%"></el-input>
+                <el-input v-model.number="form.dormRoomId" :disabled="true" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item v-if="this.bedNum === 1" label="床位(一)" prop="firstBed">
                 <el-input v-model.number="form.firstBed" placeholder="请输入学号" style="width: 80%"></el-input>

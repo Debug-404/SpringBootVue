@@ -91,10 +91,10 @@ const NumList = reactive({
 const getStuNum = async () => {
   request.get("/stu/stuNum").then((res) => {
     if (res.data.code === 200) {
-      NumList.studentNum = res.data;
+      NumList.studentNum = res.data.data;
     } else {
       ElMessage({
-        message: res.data.msg,
+        message: res.data.message,
         type: "error",
       });
     }
@@ -139,7 +139,7 @@ const getNoFullRoom = async () => {
 const getHomePageNotice = async () => {
   request.get("/notice/homePageNotice").then((res) => {
     if (res.data.code === 200) {
-      NumList.activities = res.data.data;
+      activities.value = res.data.data;
     } else {
       ElMessage({
         message: res.data.msg,

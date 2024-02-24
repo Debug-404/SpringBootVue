@@ -13,7 +13,7 @@
           <div style="margin: 10px 0">
             <el-input v-model="search" clearable placeholder="请输入标题" prefix-icon="Search" style="width: 20%"/>
             <el-button icon="Search" style="margin-left: 5px" type="primary" @click="load"></el-button>
-            <el-button icon="refresh-left" style="margin-left: 10px" type="default" @click="reset"></el-button>
+            <el-button icon="refresh-left" style="margin-left: 10px" @click="reset"></el-button>
             <div style="float: right">
               <el-tooltip content="添加" placement="top">
                 <el-button icon="plus" style="width: 50px" type="primary" @click="add"></el-button>
@@ -24,13 +24,17 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <el-table-column :show-overflow-tooltip="true" label="标题" prop="title"/>
-          <el-table-column label="作者" prop="author" width="150px"/>
-          <el-table-column label="发布时间" prop="releaseTime" sortable width="400px"/>
+          <el-table-column :show-overflow-tooltip="true" label="标题" prop="title" width="200px"/>
+          <el-table-column label="详情" prop="text" width="auto">
+            <template #default="scope">
+              <span v-html="scope.row.text"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="发布时间" prop="time" sortable width="300px"/>
           <!--      操作栏-->
           <el-table-column label="操作" width="190px">
             <template #default="scope">
-              <el-button icon="more-filled" type="default" @click="showDetail(scope.row)"></el-button>
+              <el-button icon="more-filled" @click="showDetail(scope.row)"></el-button>
               <el-button icon="Edit" type="primary" @click="handleEdit(scope.row)"></el-button>
               <el-popconfirm title="确认删除？" @confirm="handleDelete(scope.row.id)">
                 <template #reference>
@@ -45,7 +49,7 @@
           <el-pagination
               v-model:currentPage="currentPage"
               :page-size="pageSize"
-              :page-sizes="[10, 20]"
+              :page-sizes="[10]"
               :total="total"
               layout="total, sizes, prev, pager, next, jumper"
               @size-change="handleSizeChange"
@@ -60,12 +64,12 @@
               <el-form-item label="标题" prop="title" style="margin-bottom: 27px">
                 <el-input v-model="form.title" clearable style="width: 50%"></el-input>
               </el-form-item>
-              <el-form-item label="内容" prop="content">
+              <el-form-item label="内容" prop="text">
                 <div id="div1" style="width: 74%; margin: 4px 0"></div>
               </el-form-item>
-              <el-form-item label="发布时间" prop="releaseTime" style="margin-top: 27px">
+              <el-form-item label="发布时间" prop="time" style="margin-top: 27px">
                 <el-date-picker
-                    v-model="form.releaseTime"
+                    v-model="form.time"
                     clearable
                     placeholder="选择时间"
                     type="datetime"
@@ -83,7 +87,7 @@
           <!--    公告详情-->
           <el-dialog v-model="detailDialog" title="详情" width="50%">
             <el-card>
-              <div v-html="detail.content"></div>
+              <div v-html="detail.text"></div>
             </el-card>
             <template #footer>
               <span class="dialog-footer">

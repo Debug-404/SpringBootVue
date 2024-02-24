@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus";
 
 export default {
     name: "BuildingInfo",
@@ -48,17 +48,17 @@ export default {
                 fourthBed: "",
             },
             rules: {
+                dormBuildId: [
+                    {required: true, message: "请输入楼宇号数", trigger: "blur"},
+                    {pattern: /^[1-4]$/, message: "范围：1-4", trigger: "blur"},
+                ],
                 dormRoomId: [
                     {required: true, message: "请输入房间号", trigger: "blur"},
                     {pattern: /^[0-9]{4}$/, message: "范围：1000-9999", trigger: "blur"},
                 ],
                 floorNum: [
                     {required: true, message: "请输入楼层数", trigger: "blur"},
-                    {pattern: /^[1-3]$/, message: "范围：1-3", trigger: "blur"},
-                ],
-                dormBuildId: [
-                    {required: true, message: "请输入楼宇号数", trigger: "blur"},
-                    {pattern: /^[1-4]$/, message: "范围：1-4", trigger: "blur"},
+                    {pattern: /^[1-7]$/, message: "范围：1-7", trigger: "blur"},
                 ],
                 maxCapacity: [
                     {required: true, message: "请输入房间可住人数", trigger: "blur"},
@@ -81,7 +81,7 @@ export default {
         setTimeout(() => {
             //设置延迟执行
             this.loading = false;
-        }, 1000);
+        }, 100);
     },
     methods: {
         async load() {
@@ -92,8 +92,9 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                console.log(res.data);
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -106,9 +107,9 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -129,27 +130,28 @@ export default {
                 if (valid) {
                     if (this.judge === false) {
                         //新增
-                        request.post("/room/add", this.form).then((res) => {
-                            if (res.code === "0") {
-                                ElMessage({
-                                    message: "新增成功",
-                                    type: "success",
-                                });
-                                this.search = "";
-                                this.loading = true;
-                                this.load();
-                                this.dialogVisible = false;
-                            } else {
-                                ElMessage({
-                                    message: res.msg,
-                                    type: "error",
-                                });
-                            }
-                        });
+                        request.post("/room/add", this.form)
+                            .then((res) => {
+                                if (res.data.code === 200) {
+                                    ElMessage({
+                                        message: "新增成功",
+                                        type: "success",
+                                    });
+                                    this.search = "";
+                                    this.loading = true;
+                                    this.load();
+                                    this.dialogVisible = false;
+                                } else {
+                                    ElMessage({
+                                        message: res.data.message,
+                                        type: "error",
+                                    });
+                                }
+                            });
                     } else {
                         //修改
                         request.put("/room/update", this.form).then((res) => {
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "修改成功",
                                     type: "success",
@@ -159,7 +161,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -188,7 +190,7 @@ export default {
         handleDelete(dormRoomId) {
             //删除
             request.delete("/room/delete/" + dormRoomId).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -197,7 +199,7 @@ export default {
                     this.load();
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }
@@ -262,7 +264,7 @@ export default {
                 stu = info.fourthBed;
             }
             request.get("/stu/exist/" + stu).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     this.stuInfoDialog = true;
                     this.$nextTick(() => {
                         this.$refs.form.resetFields();
@@ -278,7 +280,7 @@ export default {
                     // 为床位添加学生
                     this.form.currentCapacity = this.havePeopleNum + 1;
                     request.put("/room/update", this.form).then((res) => {
-                        if (res.code === "0") {
+                        if (res.data.code === 200) {
                             ElMessage({
                                 message: "新增成功",
                                 type: "success",
@@ -289,7 +291,7 @@ export default {
                             this.bedDialog = false;
                         } else {
                             ElMessage({
-                                message: res.msg,
+                                message: res.data.message,
                                 type: "error",
                             });
                         }
@@ -302,7 +304,7 @@ export default {
             this.$refs.form.validate((valid) => {
                 if (valid) {
                     request.put("/room/update", this.form).then((res) => {
-                        if (res.code === "0") {
+                        if (res.data.code === 200) {
                             ElMessage({
                                 message: "修改成功",
                                 type: "success",
@@ -313,7 +315,7 @@ export default {
                             this.bedDialog = false;
                         } else {
                             ElMessage({
-                                message: res.msg,
+                                message: res.data.message,
                                 type: "error",
                             });
                         }
@@ -343,7 +345,7 @@ export default {
                 "/" +
                 this.havePeopleNum
             ).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -354,7 +356,7 @@ export default {
                     this.bedDialog = false;
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }

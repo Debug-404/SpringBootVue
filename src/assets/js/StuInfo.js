@@ -36,12 +36,26 @@ export default {
                 callback();
             }
         };
+        const chekId = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error("学号不能为空"));
+            }
+            if (!this.judge)
+                setTimeout(() => {
+                    request.get("stu/getStudent/" + value,).then(res => {
+                        if (res.data.code !== 200) callback()
+                        else callback(new Error("学号已经存在"))
+                    })
+                }, 100)
+            else callback()
+        };
         return {
             showpassword: true,
             judgeAddOrEdit: true,
             loading: true,
             editJudge: true,
             disabled: false,
+            //判断是添加or修改 false是添加
             judge: false,
             dialogVisible: false,
             //模糊搜索的关键字
@@ -66,10 +80,11 @@ export default {
                 id: [
                     {required: true, message: "请输入学号", trigger: "blur"},
                     {
-                        pattern: /^[a-zA-Z0-9]{4,9}$/,
-                        message: "必须由 2 到 5 个字母或数字组成",
+                        pattern: /^[a-zA-Z0-9]{10}$/,
+                        message: "必须由 10 数字组成",
                         trigger: "blur",
                     },
+                    {validator: chekId, trigger: "blur"}
                 ],
                 name: [
                     {required: true, message: "请输入姓名", trigger: "blur"},
@@ -121,7 +136,8 @@ export default {
         }, 1000);
     },
     methods: {
-        async load() {
+        //加载学生信息
+        load() {
             request.get("/stu/find", {
                 params: {
                     pageNum: this.currentPage,
@@ -129,7 +145,6 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res.data.data);
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;
@@ -144,19 +159,22 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
         filterTag(value, row) {
             return row.gender === value;
         },
+        //添加学生信息
         add() {
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
+                //this.$refs.form.resetFields();
                 this.judgeAddOrEdit = false;
                 this.editDisplay = {display: "none"};
                 this.disabled = false;
@@ -170,8 +188,8 @@ export default {
                     if (this.judge === false) {
                         //新增
                         request.post("/stu/add", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === 200) {
+                            console.log(res.data);
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
                                     type: "success",
@@ -182,42 +200,47 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
                         });
                     } else {
                         //修改
-                        request.put("/stu/update", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === 200) {
-                                ElMessage({
-                                    message: "修改成功",
-                                    type: "success",
-                                });
-                                this.search = "";
-                                this.load();
-                                this.dialogVisible = false;
-                            } else {
-                                ElMessage({
-                                    message: res.msg,
-                                    type: "error",
-                                });
-                            }
-                        });
+                        request.put("/stu/update", this.form)
+                            .then((res) => {
+                                if (res.data.code === 200) {
+                                    ElMessage({
+                                        message: "修改成功",
+                                        type: "success",
+                                    });
+                                    this.search = "";
+                                    this.load();
+                                    this.dialogVisible = false;
+                                } else {
+                                    ElMessage({
+                                        message: res.data.message,
+                                        type: "error",
+                                    });
+                                }
+                            });
                     }
                 }
             });
         },
+        //关闭弹窗
         cancel() {
-            this.$refs.form.resetFields();
+            if (this.$refs.form !== undefined) {
+                this.$refs.form.resetFields()
+            }
+            //this.$refs.form.resetFields();
             this.display = {display: "none"};
             this.editJudge = true;
             this.disabled = true;
             this.showpassword = true;
             this.dialogVisible = false;
         },
+        //修改密码
         EditPass() {
             if (this.editJudge) {
                 this.showpassword = false;
@@ -232,20 +255,23 @@ export default {
             }
         },
         handleEdit(row) {
-            console.log(row)
             //修改
             //判断操作类型
             this.judge = true;
             // 生拷贝
             this.dialogVisible = true;
             this.$nextTick(() => {
-                this.$refs.form.resetFields();
+                if (this.$refs.form !== undefined) {
+                    this.$refs.form.resetFields()
+                }
+                //this.$refs.form.resetFields();
                 this.form = JSON.parse(JSON.stringify(row));
                 this.judgeAddOrEdit = true;
                 this.editDisplay = {display: "block"};
                 this.disabled = true;
             });
         },
+        //删除学生信息
         async handleDelete(id) {
             //删除
             request.delete("/stu/delete/" + id)
