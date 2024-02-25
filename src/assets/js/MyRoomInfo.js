@@ -24,8 +24,8 @@ export default {
         };
     },
     created() {
-        this.init();
-        this.getInfo();
+        //this.init();
+        //this.getInfo();
     },
     methods: {
         init() {

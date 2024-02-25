@@ -1,5 +1,5 @@
 import request from "@/utils/index";
-import {ElMessage} from "element-plus"
+import { ElMessage } from "element-plus"
 
 
 export default {
@@ -78,16 +78,16 @@ export default {
             },
             rules: {
                 id: [
-                    {required: true, message: "请输入学号", trigger: "blur"},
+                    { required: true, message: "请输入学号", trigger: "blur" },
                     {
                         pattern: /^[a-zA-Z0-9]{10}$/,
                         message: "必须由 10 数字组成",
                         trigger: "blur",
                     },
-                    {validator: chekId, trigger: "blur"}
+                    { validator: chekId, trigger: "blur" }
                 ],
                 name: [
-                    {required: true, message: "请输入姓名", trigger: "blur"},
+                    { required: true, message: "请输入姓名", trigger: "blur" },
                     {
                         pattern: /^(?:[\u4E00-\u9FA5·]{2,10})$/,
                         message: "必须由 2 到 10 个汉字组成",
@@ -95,21 +95,21 @@ export default {
                     },
                 ],
                 age: [
-                    {required: true, message: "请输入年龄", trigger: "blur"},
-                    {type: "number", message: "年龄必须为数字值", trigger: "blur"},
+                    { required: true, message: "请输入年龄", trigger: "blur" },
+                    { type: "number", message: "年龄必须为数字值", trigger: "blur" },
                     {
                         pattern: /^(1|[1-9]\d?|100)$/,
                         message: "范围：1-100",
                         trigger: "blur",
                     },
                 ],
-                sex: [{required: true, message: "请选择性别", trigger: "change"}],
-                phone: [{required: true, validator: checkPhone, trigger: "blur"}],
+                sex: [{ required: true, message: "请选择性别", trigger: "change" }],
+                phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
                 email: [
-                    {type: "email", message: "请输入正确的邮箱地址", trigger: "blur"},
+                    { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" },
                 ],
                 password: [
-                    {required: true, message: "请输入密码", trigger: "blur"},
+                    { required: true, message: "请输入密码", trigger: "blur" },
                     {
                         min: 6,
                         max: 32,
@@ -117,7 +117,7 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                checkPass: [{validator: checkPass, trigger: "blur"}],
+                checkPass: [{ validator: checkPass, trigger: "blur" }],
             },
             editDisplay: {
                 display: "block",
@@ -176,7 +176,7 @@ export default {
                 }
                 //this.$refs.form.resetFields();
                 this.judgeAddOrEdit = false;
-                this.editDisplay = {display: "none"};
+                this.editDisplay = { display: "none" };
                 this.disabled = false;
                 this.form = {};
                 this.judge = false;
@@ -188,7 +188,7 @@ export default {
                     if (this.judge === false) {
                         //新增
                         request.post("/stu/add", this.form).then((res) => {
-                            console.log(res.data);
+
                             if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
@@ -234,7 +234,7 @@ export default {
                 this.$refs.form.resetFields()
             }
             //this.$refs.form.resetFields();
-            this.display = {display: "none"};
+            this.display = { display: "none" };
             this.editJudge = true;
             this.disabled = true;
             this.showpassword = true;
@@ -244,12 +244,12 @@ export default {
         EditPass() {
             if (this.editJudge) {
                 this.showpassword = false;
-                this.display = {display: "flex"};
+                this.display = { display: "flex" };
                 this.disabled = false;
                 this.editJudge = false;
             } else {
                 this.showpassword = true;
-                this.display = {display: "none"};
+                this.display = { display: "none" };
                 this.editJudge = true;
                 this.disabled = true;
             }
@@ -267,7 +267,7 @@ export default {
                 //this.$refs.form.resetFields();
                 this.form = JSON.parse(JSON.stringify(row));
                 this.judgeAddOrEdit = true;
-                this.editDisplay = {display: "block"};
+                this.editDisplay = { display: "block" };
                 this.disabled = true;
             });
         },

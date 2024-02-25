@@ -3,7 +3,7 @@
     <el-breadcrumb separator-icon="ArrowRight" style="margin: 16px">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>宿管信息</el-breadcrumb-item>
+      <el-breadcrumb-item>维修员信息</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card style="margin: 15px; min-height: calc(100vh - 111px)">
       <div>
@@ -13,7 +13,7 @@
           <div style="margin: 10px 0">
             <el-input v-model="search" clearable placeholder="请输入姓名" prefix-icon="Search" style="width: 20%"/>
             <el-button icon="Search" style="margin-left: 5px" type="primary" @click="load"></el-button>
-            <el-button icon="refresh-left" style="margin-left: 10px" type="default" @click="reset"></el-button>
+            <el-button icon="refresh-left" style="margin-left: 10px" @click="reset"></el-button>
             <div style="float: right">
               <el-tooltip content="添加" placement="top">
                 <el-button icon="plus" style="width: 50px" type="primary" @click="add"></el-button>
@@ -24,7 +24,7 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <el-table-column label="账号" prop="username" sortable/>
+          <el-table-column label="账号" prop="id" sortable/>
           <el-table-column label="姓名" prop="name"/>
           <el-table-column
               :filter-method="filterTag"
@@ -34,12 +34,12 @@
             ]"
               filter-placement="bottom-end"
               label="性别"
-              prop="gender"
+              prop="sex"
           />
           <el-table-column label="年龄" prop="age" sortable/>
-          <el-table-column label="手机号" prop="phoneNum"/>
-          <el-table-column label="邮箱" prop="email"/>
-          <el-table-column label="任职宿舍楼" prop="dormBuildId" sortable/>
+          <el-table-column label="手机号" prop="phone"/>
+          <!--          <el-table-column label="邮箱" prop="email"/>-->
+          <!--          <el-table-column label="任职宿舍楼" prop="dormBuildId" sortable/>-->
           <!--      操作栏-->
           <el-table-column label="操作" width="130px">
             <template #default="scope">
@@ -57,7 +57,7 @@
           <el-pagination
               v-model:currentPage="currentPage"
               :page-size="pageSize"
-              :page-sizes="[10, 20]"
+              :page-sizes="[10]"
               :total="total"
               layout="total, sizes, prev, pager, next, jumper"
               @size-change="handleSizeChange"
@@ -69,8 +69,8 @@
           <!--      弹窗-->
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-              <el-form-item label="账号" prop="username">
-                <el-input v-model="form.username" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
+              <el-form-item label="账号" prop="id">
+                <el-input v-model="form.id" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input v-model="form.password" :disabled="disabled" :show-password="showpassword"
@@ -78,7 +78,7 @@
                 <el-tooltip content="修改密码" placement="right">
                   <el-icon :style="editDisplay" size="large" style="margin-left: 5px; cursor: pointer"
                            @click="EditPass">
-                    <edit/>
+                    <Edit/>
                   </el-icon>
                 </el-tooltip>
               </el-form-item>
@@ -91,19 +91,19 @@
               <el-form-item label="年龄" prop="age">
                 <el-input v-model.number="form.age" style="width: 80%"></el-input>
               </el-form-item>
-              <el-form-item label="性别" prop="gender">
-                <el-radio v-model="form.gender" label="男">男</el-radio>
-                <el-radio v-model="form.gender" label="女">女</el-radio>
+              <el-form-item label="性别" prop="sex">
+                <el-radio v-model="form.sex" label="男">男</el-radio>
+                <el-radio v-model="form.sex" label="女">女</el-radio>
               </el-form-item>
-              <el-form-item label="手机号" prop="phoneNum">
-                <el-input v-model.number="form.phoneNum" style="width: 80%"></el-input>
+              <el-form-item label="手机号" prop="phone">
+                <el-input v-model.number="form.phone" style="width: 80%"></el-input>
               </el-form-item>
-              <el-form-item label="邮箱地址" prop="email">
-                <el-input v-model="form.email" style="width: 80%"></el-input>
-              </el-form-item>
-              <el-form-item label="任职宿舍楼" prop="dormBuildId">
-                <el-input v-model="form.dormBuildId" style="width: 80%"></el-input>
-              </el-form-item>
+              <!--              <el-form-item label="邮箱地址" prop="email">-->
+              <!--                <el-input v-model="form.email" style="width: 80%"></el-input>-->
+              <!--              </el-form-item>-->
+              <!--              <el-form-item label="任职宿舍楼" prop="dormBuildId">-->
+              <!--                <el-input v-model="form.dormBuildId" style="width: 80%"></el-input>-->
+              <!--              </el-form-item>-->
             </el-form>
             <template #footer>
               <span class="dialog-footer">
@@ -117,4 +117,4 @@
     </el-card>
   </div>
 </template>
-<script src="@/assets/js/DormManagerInfo.js"></script>
+<script src="../assets/js/WorkerInfo.js"></script>

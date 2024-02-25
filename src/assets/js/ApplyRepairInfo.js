@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus";
 
 export default {
     name: "ApplyRepairInfo",
@@ -18,7 +18,10 @@ export default {
             detail: {},
             name: '',
             userId: '',
-            form: {},
+            form: {
+                id: "",
+                sName: ""
+            },
             room: {
                 dormRoomId: '',
                 dormBuildId: '',
@@ -32,7 +35,7 @@ export default {
     },
     created() {
         this.init()
-        this.getInfo()
+        //this.getInfo()
         this.load()
         this.loading = true
         setTimeout(() => {
@@ -43,31 +46,30 @@ export default {
     methods: {
         init() {
             this.form = JSON.parse(sessionStorage.getItem("user"));
-            this.name = this.form.name;
-            this.username = this.form.username;
+            console.log(this.form)
+            this.name = this.form.sName;
+            this.sId = this.form.id;
         },
         async load() {
-            request.get("/repair/find/" + this.name, {
+            request.get("/repair/find/" + this.sId, {
                 params: {
                     pageNum: this.currentPage,
                     pageSize: this.pageSize,
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
         getInfo() {
-            request.get("/room/getMyRoom/" + this.username).then((res) => {
-                if (res.code === "0") {
-                    this.room = res.data;
-                    console.log(this.room);
+            request.get("/room/getMyRoom/" + this.sId).then((res) => {
+                if (res.data.code === 200) {
+                    this.room = res.data.data;
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.msg,
                         type: "error",
                     });
                 }
@@ -100,7 +102,7 @@ export default {
                     //新增
                     console.log(this.form)
                     await request.post("/repair/add", this.form).then((res) => {
-                        if (res.code === "0") {
+                        if (res.data.code === 200) {
                             ElMessage({
                                 message: "新增成功",
                                 type: "success",
@@ -110,7 +112,7 @@ export default {
                             this.dialogVisible = false;
                         } else {
                             ElMessage({
-                                message: res.msg,
+                                message: res.data.message,
                                 type: "error",
                             });
                         }

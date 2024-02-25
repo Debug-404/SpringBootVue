@@ -4,9 +4,9 @@ import Layout from '@/layout/Layout.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/",
-        name: "login",
-        component: () => import("@/views/student/login/index.vue"),
+        path: "/login",
+        name: "Login",
+        component: () => import("@/views/Login.vue"),
         meta: {
             title: "登录"
         }
@@ -27,10 +27,10 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {title: "学生信息"}
             },
             {
-                path: '/dormManagerInfo',
-                name: 'DormManagerInfo',
-                component: () => import("@/views/DormManagerInfo.vue"),
-                meta: {title: "宿管信息"}
+                path: '/workerInfo',
+                name: 'WorkerInfo',
+                component: () => import("@/views/WorkerInfo.vue"),
+                meta: {title: "维修员信息"}
             },
             {
                 path: '/buildingInfo',
@@ -68,7 +68,6 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("@/views/VisitorInfo.vue"),
                 meta: {title: "访客管理"}
             },
-            //
             {
                 path: '/myRoomInfo',
                 name: 'MyRoomInfo',
@@ -88,7 +87,12 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {title: "调宿申请"}
             },
 
-            {path: '/selfInfo', name: 'SelfInfo', component: () => import("@/views/SelfInfo.vue")},
+            {
+                path: '/selfInfo',
+                name: 'SelfInfo',
+                component: () => import("@/views/SelfInfo.vue"),
+                meta: {title: "个人信息"}
+            },
         ]
     },
     {
@@ -106,13 +110,24 @@ const router = createRouter({
     routes
 })
 //路由守卫
-router.beforeEach((to, from) => {
+router.beforeEach((to, from, next) => {
     //to 要访问的路径
     //from 代表从哪个路径跳转而来
     // next 是函数，表示放行
     // next() 放行
     // next('/*') 强制跳转
     document.title = <string>to.meta?.title
+    const user = window.sessionStorage.getItem('user')
+    if (to.path === '/login') {
+        return next();
+    }
+    if (!user) {
+        return next('/login')
+    }
+    if (to.path === '/' && user) {
+        return next('/home')
+    }
+    next()
 })
 
 export default router

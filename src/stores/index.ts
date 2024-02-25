@@ -6,8 +6,9 @@ export const useCounterStore = defineStore("main", {
         return {
             userId: "",
             userName: "",
+            user: {},
             isLogin: false,
-            identity: '',
+            identity: 'admin',
             token: getToKen(),
         }
     },
@@ -17,7 +18,6 @@ export const useCounterStore = defineStore("main", {
     actions: {
         setUser(userId: string) {
             this.userId = userId
-            //this.userName = userName
             localStorage.setItem("userid", userId)
         },
         removeUser() {

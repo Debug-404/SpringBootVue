@@ -3,8 +3,8 @@
     <div style="width: 400px; margin: 150px auto">
       <div style="color: black; font-size: 30px; text-align: left; padding: 30px 0">登陆</div>
       <el-form ref="ruleFormRef" :model="form" :rules="rules" size="large">
-        <el-form-item prop="username">
-          <el-input v-model="form.userId" clearable prefix-icon="avatar"></el-input>
+        <el-form-item prop="id">
+          <el-input v-model="form.id" clearable prefix-icon="avatar"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="form.password" prefix-icon="lock" show-password></el-input>
@@ -33,16 +33,15 @@ import {useCounterStore} from "@/stores";
 const router = useRouter()
 const Store = useCounterStore()
 const ruleFormRef = ref<FormInstance>()
-const identity = ref("")
 
 const form = reactive({
-  userId: "",
+  id: "",
   password: "",
   identity: "",
 })
 
 const rules = reactive({
-  userId: [
+  id: [
     {required: true, message: "请输入用户名", trigger: "blur"},
   ],
   password: [{required: true, message: "请输入密码", trigger: "blur"}],
@@ -50,24 +49,24 @@ const rules = reactive({
 })
 
 let disabled = computed(() => {
-  const {userId, password, identity} = form;
-  return Boolean(userId && password && identity);
+  const {id, password, identity} = form;
+  return Boolean(id && password && identity);
 })
 
 const login = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid: boolean) => {
     if (valid) {
-      identity.value = form.identity;
-      request.post("/" + identity.value + "/login", form).then((res) => {
+      request.post("/" + form.identity + "/login", form).then((res) => {
         if (res.data.code === 200) {
           ElMessage({
             message: "登陆成功",
             type: "success",
           });
           // 登陆成功跳转主页
-          //window.sessionStorage.setItem("user", JSON.stringify(res.data));
-          //window.sessionStorage.setItem("identity", JSON.stringify(form.identity));
+          Store.identity = form.identity;
+          window.sessionStorage.setItem("user", JSON.stringify(res.data.data));
+          window.sessionStorage.setItem("identity", JSON.stringify(String(form.identity)));
           router.replace({path: "/home"});
         } else {
           ElMessage({
@@ -88,18 +87,16 @@ const login = (formEl: FormInstance | undefined) => {
   width: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(
-      135deg,
-      hsl(170deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(250deg, 80%, 70%),
-      hsl(320deg, 80%, 70%),
-      hsl(320deg, 80%, 70%),
-      hsl(250deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(170deg, 80%, 70%)
-  );
+  background: linear-gradient(135deg,
+  hsl(170deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(250deg, 80%, 70%),
+  hsl(320deg, 80%, 70%),
+  hsl(320deg, 80%, 70%),
+  hsl(250deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(170deg, 80%, 70%));
   background-size: 600%;
   animation: myanimation 15s linear infinite;
 }
@@ -108,6 +105,7 @@ const login = (formEl: FormInstance | undefined) => {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 100% 100%;
   }

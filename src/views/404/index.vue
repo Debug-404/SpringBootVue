@@ -2,10 +2,10 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img alt="404" class="pic-404__parent" src="@/assets/404-images/404.png">
-        <img alt="404" class="pic-404__child left" src="@/assets/404-images/404-cloud.png">
-        <img alt="404" class="pic-404__child mid" src="@/assets/404-images/404-cloud.png">
-        <img alt="404" class="pic-404__child right" src="@/assets/404-images/404-cloud.png">
+        <img alt="404" class="pic-404__parent" src="../../assets/img/404.png">
+        <img alt="404" class="pic-404__child left" src="../../assets/img/404-cloud.png">
+        <img alt="404" class="pic-404__child mid" src="../../assets/img/404-cloud.png">
+        <img alt="404" class="pic-404__child right" src="../../assets/img/404-cloud.png">
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>

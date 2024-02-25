@@ -3,7 +3,7 @@
            style="width: 200px; height:100%; min-height: calc(100vh - 40px)"
            unique-opened>
     <div style="display: flex;align-items: center;justify-content: center;padding: 11px 0;">
-      <img alt="" src="@/assets/logo.png" style="width: 60px;">
+      <img alt="" src="../assets/img/logo.png" style="width: 60px;">
     </div>
     <el-menu-item index="/home">
       <el-icon>
@@ -19,7 +19,7 @@
         <span>用户管理</span>
       </template>
       <el-menu-item v-if="judgeIdentity() !== 0" index="/stuInfo">学生信息</el-menu-item>
-      <el-menu-item v-if="judgeIdentity() === 2" index="/dormManagerInfo">宿管信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2" index="/workerInfo">宿管信息</el-menu-item>
     </el-sub-menu>
     <el-sub-menu v-if="judgeIdentity() !== 0" index="3">
       <template #title>
@@ -41,15 +41,15 @@
       <el-menu-item v-if="judgeIdentity() === 2" index="/noticeInfo">公告信息</el-menu-item>
       <el-menu-item v-if="judgeIdentity() !== 0" index="/repairInfo">报修信息</el-menu-item>
     </el-sub-menu>
-    <el-sub-menu v-if="judgeIdentity() !== 0" index="5">
-      <template #title>
-        <el-icon>
-          <PieChart/>
-        </el-icon>
-        <span>申请管理</span>
-      </template>
-      <el-menu-item v-if="judgeIdentity() !== 0" index="/adjustRoomInfo">调宿申请</el-menu-item>
-    </el-sub-menu>
+    <!--    <el-sub-menu v-if="judgeIdentity() !== 0" index="5">-->
+    <!--      <template #title>-->
+    <!--        <el-icon>-->
+    <!--          <PieChart/>-->
+    <!--        </el-icon>-->
+    <!--        <span>申请管理</span>-->
+    <!--      </template>-->
+    <!--      <el-menu-item v-if="judgeIdentity() !== 0" index="/adjustRoomInfo">调宿申请</el-menu-item>-->
+    <!--    </el-sub-menu>-->
     <el-menu-item v-if="judgeIdentity() !== 0" index="/visitorInfo">
       <svg class="icon" data-v-042ca774="" style="height: 18px; margin-right: 11px;" viewBox="0 0 1024 1024"
            xmlns="http://www.w3.org/2000/svg">
@@ -89,21 +89,15 @@
 <script setup>
 import {onMounted, reactive} from "vue"
 
-import {Coin, House, Message, PieChart, School, Setting, SetUp, TakeawayBox, User} from "@element-plus/icons-vue"
+import {Coin, House, Message, School, Setting, SetUp, TakeawayBox, User} from "@element-plus/icons-vue"
 import {useRoute, useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
+import request from "@/utils/index"
 
 const router = useRouter()
 const route = useRoute()
 const Store = useCounterStore()
-const judgeIdentity = () => {
-  if (Store.identity === 'stu') {
-    return 0
-  } else if (Store.identity === 'dormManager') {
-    return 1
-  } else
-    return 2
-}
+
 
 const Data = reactive({
   user: {},
@@ -112,59 +106,45 @@ const Data = reactive({
 })
 
 onMounted(async () => {
-
+  await init()
 })
-// export default {
-//   name: "Aside",
-//   data() {
-//     return {
-//       user: {},
-//       identity: '',
-//       path: this.$route.path
-//     }
-//   },
-//   created() {
-//     this.init()
-//   },
-//   methods: {
-//     init() {
-//       request.get("/main/loadIdentity").then((res) => {
-//         if (res.code !== "0") {
-//           ElMessage({
-//             message: '用户会话过期',
-//             type: 'error',
-//           });
-//           sessionStorage.clear()
-//           request.get("/main/signOut");
-//
-//         }
-//         window.sessionStorage.setItem("identity", JSON.stringify(res.data));
-//         this.identity = res.data
-//       });
-//       request.get("/main/loadUserInfo").then((result) => {
-//         if (result.code !== "0") {
-//           ElMessage({
-//             message: '用户会话过期',
-//             type: 'error',
-//           });
-//           request.get("/main/signOut");
-//           sessionStorage.clear()
-//           this.$router.replace({path: "/login"});
-//         }
-//         window.sessionStorage.setItem("user", JSON.stringify(result.data));
-//         this.user = result.data
-//       });
-//     },
-//     judgeIdentity() {
-//       if (this.identity === 'stu') {
-//         return 0
-//       } else if (this.identity === 'dormManager') {
-//         return 1
-//       } else
-//         return 2
-//     }
-//   },
-// }
+
+const init = () => {
+  request.get("/main/loadIdentity").then((res) => {
+    if (res.data.code !== 200) {
+      ElMessage({
+        message: '用户会话过期',
+        type: 'error',
+      });
+      sessionStorage.clear()
+      request.get("/main/signOut");
+
+    }
+    window.sessionStorage.setItem("identity", JSON.stringify(res.data.data));
+    Data.identity = res.data
+  });
+  request.get("/main/loadUserInfo").then((result) => {
+    if (result.data.code !== 200) {
+      ElMessage({
+        message: '用户会话过期',
+        type: 'error',
+      });
+      request.get("/main/signOut");
+      sessionStorage.clear()
+      router.replace({path: "/login"});
+    }
+    window.sessionStorage.setItem("user", JSON.stringify(result.data.data));
+    Data.user = result.data
+  });
+}
+const judgeIdentity = () => {
+  if (Store.identity === 'stu') {
+    return 0
+  } else if (Store.identity === 'dormManager') {
+    return 1
+  } else
+    return 2
+}
 </script>
 
 <style scoped>

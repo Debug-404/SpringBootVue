@@ -22,10 +22,10 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <el-table-column :show-overflow-tooltip="true" label="标题" prop="title"/>
+          <el-table-column :show-overflow-tooltip="true" label="标题" prop="type"/>
           <el-table-column label="宿舍号" prop="dormBuildId" sortable width="150px"/>
           <el-table-column label="房间号" prop="dormRoomId" sortable width="150px"/>
-          <el-table-column label="申请人" prop="repairer" width="150px"/>
+          <el-table-column label="申请人" prop="sname" width="150px"/>
           <el-table-column
               :filter-method="filterTag"
               :filters="[
@@ -48,7 +48,7 @@
           <!--      操作栏-->
           <el-table-column label="操作" width="74px">
             <template #default="scope">
-              <el-button icon="more-filled" type="default" @click="showDetail(scope.row)"></el-button>
+              <el-button icon="more-filled" @click="showDetail(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -57,7 +57,7 @@
           <el-pagination
               v-model:currentPage="currentPage"
               :page-size="pageSize"
-              :page-sizes="[10, 20]"
+              :page-sizes="[10]"
               :total="total"
               layout="total, sizes, prev, pager, next, jumper"
               @size-change="handleSizeChange"
@@ -75,11 +75,11 @@
               <el-form-item label="房间号" prop="dormRoomId" style="margin-bottom: 27px">
                 <el-input v-model="form.dormRoomId" disabled style="width: 80%">{{ this.room.dormRoomId }}</el-input>
               </el-form-item>
-              <el-form-item label="申请人" prop="repairer">
+              <el-form-item label="申请人" prop="sname">
                 <el-input v-model="form.repairer" disabled style="width: 80%">{{ this.name }}</el-input>
               </el-form-item>
-              <el-form-item label="标题" prop="title" style="margin-bottom: 27px">
-                <el-input v-model="form.title" clearable style="width: 80%"></el-input>
+              <el-form-item label="标题" prop="type" style="margin-bottom: 27px">
+                <el-input v-model="form.type" clearable style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="内容" prop="content">
                 <el-input

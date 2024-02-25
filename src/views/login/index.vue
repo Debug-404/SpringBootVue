@@ -25,18 +25,11 @@
     </el-col>
   </el-row>
 </template>
-<!--<script lang="ts">-->
-<!--import {defineComponent} from 'vue'-->
-
-<!--export default defineComponent({-->
-<!--  name: "login"-->
-<!--})-->
-<!--</script>-->
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
 import {User, Lock} from "@element-plus/icons-vue"
 import {ElNotification} from "element-plus";
-import imgUrl from "@/assets/img/01.jpg"
+import imgUrl from "@/assets/img/index.jpg"
 import {useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
 import {login} from "@/api/student";

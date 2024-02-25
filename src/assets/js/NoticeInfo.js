@@ -1,7 +1,7 @@
 import request from "@/utils/index.ts";
 import E from "wangeditor";
 
-import {ElMessage} from "element-plus"
+import { ElMessage } from "element-plus"
 
 let editor;
 export default {
@@ -31,16 +31,16 @@ export default {
                 time: "",
             },
             rules: {
-                title: [{required: true, message: "请输入标题", trigger: "blur"}],
-                text: [{required: true, message: "请输入内容", trigger: "blur"}],
+                title: [{ required: true, message: "请输入标题", trigger: "blur" }],
+                text: [{ required: true, message: "请输入内容", trigger: "blur" }],
                 time: [
-                    {required: true, message: "请选择时间", trigger: "blur"},
+                    { required: true, message: "请选择时间", trigger: "blur" },
                 ],
             },
         };
     },
     created() {
-        //this.getSessionInfo();
+        this.getSessionInfo();
         this.load();
         this.loading = true;
         setTimeout(() => {
@@ -59,7 +59,7 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res.data);
+
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;
@@ -74,7 +74,7 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
+
                 this.tableData = res.data.data;
                 this.total = res.data.total;
                 this.loading = false;
@@ -95,7 +95,7 @@ export default {
         },
         add() {
             this.form.author = this.author;
-            console.log(this.form.author);
+
             this.dialogVisible = true;
             this.$nextTick(() => {
                 if (this.$refs.form !== undefined) {
@@ -136,7 +136,7 @@ export default {
                         //修改
                         request.put("/notice/update", this.form)
                             .then((res) => {
-                                console.log(res.data);
+
                                 if (res.data.code === 200) {
                                     ElMessage({
                                         message: "修改成功",
@@ -177,12 +177,12 @@ export default {
                 editor.create();
                 // 生拷贝
                 this.form = JSON.parse(JSON.stringify(row));
-                editor.txt.html(this.form.content);
+                editor.txt.html(this.form.text);
                 this.disabled = true;
             });
         },
         handleDelete(id) {
-            console.log(id);
+
             request.delete("/notice/delete/" + id).then((res) => {
                 if (res.data.code === 200) {
                     ElMessage({

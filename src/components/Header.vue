@@ -37,7 +37,7 @@ const SignOut = () => {
     message: '用户退出登录',
     type: 'success',
   });
-  router.replace({path: '/login'});
+  router.replace({path: '/'});
 }
 const selfInfoManage = () => {
   router.push("/selfInfo")

@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index";
 
-const {ElMessage} = require("element-plus");
+import { ElMessage } from "element-plus";
 
 export default {
     name: "RepairInfo",
@@ -32,17 +32,19 @@ export default {
             total: 0,
             tableData: [],
             detail: {},
-            form: {},
+            form: {
+                orderFinishTime: "",
+            },
             rules: {
-                title: [{required: true, message: "请输入标题", trigger: "blur"}],
-                content: [{required: true, message: "请输入内容", trigger: "blur"}],
+                type: [{ required: true, message: "请输入标题", trigger: "blur" }],
+                content: [{ required: true, message: "请输入内容", trigger: "blur" }],
                 repairer: [
-                    {required: true, message: "请输入申请人", trigger: "blur"},
+                    { required: true, message: "请输入申请人", trigger: "blur" },
                 ],
                 orderBuildTime: [
-                    {required: true, message: "请选择时间", trigger: "blur"},
+                    { required: true, message: "请选择时间", trigger: "blur" },
                 ],
-                state: [{validator: checkOrderState, trigger: "blur"}],
+                state: [{ validator: checkOrderState, trigger: "blur" }],
             },
             finishTime: {
                 display: "none",
@@ -66,9 +68,9 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -81,9 +83,9 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -104,7 +106,7 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
                 this.buildTimeDisabled = false;
-                this.finishTime = {display: "none"};
+                this.finishTime = { display: "none" };
                 this.disabled = false;
                 this.form = {};
                 this.judge = false;
@@ -116,8 +118,7 @@ export default {
                     if (this.judge === false) {
                         //新增
                         await request.post("/repair/add", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
                                     type: "success",
@@ -127,7 +128,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -135,8 +136,8 @@ export default {
                     } else {
                         //修改
                         await request.put("/repair/update", this.form).then((res) => {
-                            console.log(res);
-                            if (res.code === "0") {
+
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "修改成功",
                                     type: "success",
@@ -146,7 +147,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -169,13 +170,13 @@ export default {
                 this.form = JSON.parse(JSON.stringify(row));
                 this.disabled = true;
                 this.buildTimeDisabled = true;
-                this.finishTime = {display: "flex"};
+                this.finishTime = { display: "flex" };
             });
         },
         handleDelete(id) {
-            console.log(id);
+
             request.delete("/repair/delete/" + id).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -184,7 +185,7 @@ export default {
                     this.load();
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }

@@ -13,7 +13,7 @@
           <div style="margin: 10px 0">
             <el-input v-model="search" clearable placeholder="请输入标题" prefix-icon="Search" style="width: 20%"/>
             <el-button icon="Search" style="margin-left: 5px" type="primary" @click="load"></el-button>
-            <el-button icon="refresh-left" style="margin-left: 10px" type="default" @click="reset"></el-button>
+            <el-button icon="refresh-left" style="margin-left: 10px" @click="reset"></el-button>
             <div style="float: right">
               <el-tooltip content="添加" placement="top">
                 <el-button icon="plus" style="width: 50px" type="primary" @click="add"
@@ -24,21 +24,24 @@
         </div>
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
-          <el-table-column label="#" type="index"/>
-          <el-table-column :show-overflow-tooltip="true" label="标题" prop="title"/>
-          <el-table-column label="宿舍号" prop="dormBuildId" sortable width="150px"/>
+          <el-table-column label="#" prop="id"/>
+          <el-table-column :show-overflow-tooltip="true" label="标题" prop="type"/>
+          <el-table-column label="宿舍楼号码" prop="dormBuildId" sortable width="150px"/>
           <el-table-column label="房间号" prop="dormRoomId" sortable width="150px"/>
-          <el-table-column label="申请人" prop="repairer" width="150px"/>
-          <el-table-column
-              :filter-method="filterTag"
-              :filters="[
+          <el-table-column label="申请人" prop="sname" width="150px"/>
+          <el-table-column label="申请人电话" prop="sphone" width="150px"/>
+          <el-table-column label="维修人" prop="rname" width="150px"/>
+          <el-table-column label="维修人电话" prop="rphone" width="150px"/>
+          <el-table-column :filter-method="filterTag"
+                           :filters="[
               { text: '完成', value: '完成' },
               { text: '未完成', value: '未完成' },
             ]"
-              filter-placement="bottom-end"
-              label="订单状态"
-              prop="state"
-              sortable
+                           filter-placement="bottom-end"
+                           label="订单状态"
+                           prop="state"
+                           sortable
+                           width="150px"
           >
             <template #default="scope">
               <el-tag
@@ -53,7 +56,7 @@
           <!--      操作栏-->
           <el-table-column label="操作" width="190px">
             <template #default="scope">
-              <el-button icon="more-filled" type="default" @click="showDetail(scope.row)"></el-button>
+              <el-button icon="more-filled" @click="showDetail(scope.row)"></el-button>
               <el-button icon="Edit" type="primary" @click="handleEdit(scope.row)"></el-button>
               <el-popconfirm title="确认删除？" @confirm="handleDelete(scope.row.id)">
                 <template #reference>
@@ -80,8 +83,8 @@
         <div>
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-              <el-form-item label="标题" prop="title" style="margin-bottom: 27px">
-                <el-input v-model="form.title" clearable style="width: 80%"></el-input>
+              <el-form-item label="标题" prop="type" style="margin-bottom: 27px">
+                <el-input v-model="form.type" clearable style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="楼宇号" prop="dormBuildId" style="margin-bottom: 27px">
                 <el-input v-model="form.dormBuildId" clearable style="width: 50%"></el-input>
@@ -107,7 +110,7 @@
                 <el-radio v-model="form.state" label="完成">完成</el-radio>
                 <el-radio v-model="form.state" label="未完成">未完成</el-radio>
               </el-form-item>
-              <el-form-item label="订单创建时间" prop="orderBuildTime" style="margin-top: 27px">
+              <el-form-item v-if="judge" label="订单创建时间" prop="orderBuildTime" style="margin-top: 27px">
                 <el-date-picker
                     v-model="form.orderBuildTime"
                     :disabled="buildTimeDisabled"

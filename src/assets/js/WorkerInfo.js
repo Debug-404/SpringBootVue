@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus";
 
 export default {
     name: "StuInfo",
@@ -53,16 +53,16 @@ export default {
             total: 0,
             tableData: [],
             form: {
-                userId: "",
+                id: "",
                 name: "",
                 age: "",
-                gender: "",
-                phoneNum: "",
+                sex: "",
+                phone: "",
                 email: "",
                 dormBuildId: "",
             },
             rules: {
-                userId: [
+                id: [
                     {required: true, message: "请输入账号", trigger: "blur"},
                     {
                         pattern: /^[a-zA-Z0-9]{4,9}$/,
@@ -87,8 +87,8 @@ export default {
                         trigger: "blur",
                     },
                 ],
-                gender: [{required: true, message: "请选择性别", trigger: "change"}],
-                phoneNum: [{required: true, validator: checkPhone, trigger: "blur"}],
+                sex: [{required: true, message: "请选择性别", trigger: "change"}],
+                phone: [{required: true, validator: checkPhone, trigger: "blur"}],
                 email: [
                     {type: "email", message: "请输入正确的邮箱地址", trigger: "blur"},
                 ],
@@ -122,31 +122,29 @@ export default {
     },
     methods: {
         async load() {
-            request.get("/dormManager/find", {
+            request.get("/worker/find", {
                 params: {
                     pageNum: this.currentPage,
                     pageSize: this.pageSize,
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
         reset() {
             this.search = ''
-            request.get("/dormManager/find", {
+            request.get("/worker/find", {
                 params: {
                     pageNum: 1,
                     pageSize: this.pageSize,
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
-                this.tableData = res.data.records;
-                this.total = res.data.total;
+                this.tableData = res.data.data.list;
+                this.total = res.data.data.total;
                 this.loading = false;
             });
         },
@@ -169,9 +167,9 @@ export default {
                 if (valid) {
                     if (this.judge === false) {
                         //新增
-                        request.post("/dormManager/add", this.form).then((res) => {
+                        request.post("/worker/add", this.form).then((res) => {
                             console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "新增成功",
                                     type: "success",
@@ -181,16 +179,16 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
                         });
                     } else {
                         //修改
-                        request.put("/dormManager/update", this.form).then((res) => {
+                        request.put("/worker/update", this.form).then((res) => {
                             console.log(res);
-                            if (res.code === "0") {
+                            if (res.data.code === 200) {
                                 ElMessage({
                                     message: "修改成功",
                                     type: "success",
@@ -200,7 +198,7 @@ export default {
                                 this.dialogVisible = false;
                             } else {
                                 ElMessage({
-                                    message: res.msg,
+                                    message: res.data.message,
                                     type: "error",
                                 });
                             }
@@ -248,7 +246,7 @@ export default {
             //删除
             console.log(username);
             request.delete("/dormManager/delete/" + username).then((res) => {
-                if (res.code === "0") {
+                if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",
                         type: "success",
@@ -257,7 +255,7 @@ export default {
                     this.load();
                 } else {
                     ElMessage({
-                        message: res.msg,
+                        message: res.data.message,
                         type: "error",
                     });
                 }

@@ -1,6 +1,6 @@
 import request from "@/utils/index.ts";
 
-import {ElMessage} from "element-plus" ;
+import { ElMessage } from "element-plus";
 
 export default {
     name: "BuildingInfo",
@@ -23,7 +23,7 @@ export default {
             },
             rules: {
                 dormBuildId: [
-                    {required: true, message: "请输入编号", trigger: "blur"},
+                    { required: true, message: "请输入编号", trigger: "blur" },
                     {
                         pattern: /^(1|[1-9]\d?|100)$/,
                         message: "范围：1-100",
@@ -31,10 +31,10 @@ export default {
                     },
                 ],
                 dormBuildName: [
-                    {required: true, message: "请输入名称", trigger: "blur"},
+                    { required: true, message: "请输入名称", trigger: "blur" },
                 ],
                 dormBuildDetail: [
-                    {required: true, message: "请输入备注", trigger: "blur"},
+                    { required: true, message: "请输入备注", trigger: "blur" },
                 ],
             },
         };
@@ -113,7 +113,6 @@ export default {
                     } else {
                         //修改
                         request.put("/building/update", this.form).then((res) => {
-                            console.log(res);
                             if (res.data.code === 200) {
                                 ElMessage({
                                     message: "修改成功",

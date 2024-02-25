@@ -11,9 +11,6 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
     (request) => {
-        if (getToKen()) {
-            request.headers.token = getToKen()
-        }
         return request
     }, (error) => {
         return Promise.reject(error)
