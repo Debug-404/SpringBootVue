@@ -58,7 +58,7 @@
             <template #default="scope">
               <el-button icon="more-filled" @click="showDetail(scope.row)"></el-button>
               <el-button icon="Edit" type="primary" @click="handleEdit(scope.row)"></el-button>
-              <el-popconfirm title="确认删除？" @confirm="handleDelete(scope.row.id)">
+              <el-popconfirm v-if="this.identity==='admin'" title="确认删除？" @confirm="handleDelete(scope.row.id)">
                 <template #reference>
                   <el-button icon="Delete" type="danger"></el-button>
                 </template>

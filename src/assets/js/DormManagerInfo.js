@@ -1,6 +1,6 @@
-import request from "@/utils/index.ts";
+import request from "@/utils/request";
 
-import {ElMessage} from "element-plus";
+const {ElMessage} = require("element-plus");
 
 export default {
     name: "StuInfo",
@@ -27,7 +27,7 @@ export default {
         const checkPass = (rule, value, callback) => {
             if (!this.editJudge) {
                 console.log("验证");
-                if (value == "") {
+                if (value === "") {
                     callback(new Error("请再次输入密码"));
                 } else if (value !== this.form.password) {
                     callback(new Error("两次输入密码不一致!"));
@@ -122,14 +122,14 @@ export default {
     },
     methods: {
         async load() {
-            request.get("/worker/find", {
+            request.get("/dormManager/find", {
                 params: {
                     pageNum: this.currentPage,
                     pageSize: this.pageSize,
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res.data)
+                console.log(res.data);
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;
@@ -137,13 +137,14 @@ export default {
         },
         reset() {
             this.search = ''
-            request.get("/worker/find", {
+            request.get("/dormManager/find", {
                 params: {
                     pageNum: 1,
                     pageSize: this.pageSize,
                     search: this.search,
                 },
             }).then((res) => {
+                console.log(res);
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;
@@ -168,7 +169,7 @@ export default {
                 if (valid) {
                     if (this.judge === false) {
                         //新增
-                        request.post("/worker/add", this.form).then((res) => {
+                        request.post("/dormManager/add", this.form).then((res) => {
                             console.log(res);
                             if (res.data.code === 200) {
                                 ElMessage({
@@ -187,7 +188,7 @@ export default {
                         });
                     } else {
                         //修改
-                        request.put("/worker/update", this.form).then((res) => {
+                        request.put("/dormManager/update", this.form).then((res) => {
                             console.log(res);
                             if (res.data.code === 200) {
                                 ElMessage({
@@ -243,9 +244,9 @@ export default {
                 this.disabled = true;
             });
         },
-        async handleDelete(phone) {
+        async handleDelete(id) {
             //删除
-            request.delete("/worker/delete/" + phone).then((res) => {
+            request.delete("/dormManager/delete/" + id).then((res) => {
                 if (res.data.code === 200) {
                     ElMessage({
                         message: "删除成功",

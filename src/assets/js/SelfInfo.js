@@ -114,15 +114,6 @@ export default {
     methods: {
         //获取个人信息页面信息
         load() {
-            //  request.get("/admin/getAdmin").then(res => {
-            //     this.form = res.data.data
-            //     this.id = this.form.id
-            //     this.name = this.form.name;
-            //     this.sex = this.form.sex;
-            //     this.age = this.form.age;
-            //     this.phone = this.form.phone;
-            //     this.email = this.form.email;
-            // })
             this.form = JSON.parse(sessionStorage.getItem("user"));
             this.identity = JSON.parse(sessionStorage.getItem("identity"));
             this.id = this.form.id;
@@ -147,12 +138,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
                 this.form = JSON.parse(sessionStorage.getItem("user"));
-                // this.form.id = this.id
-                // this.form.name = this.name
-                // this.form.sex = this.sex
-                // this.form.age = this.age
-                // this.form.phone = this.phone
-                // this.form.email = this.email
             });
         },
         cancel() {

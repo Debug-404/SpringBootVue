@@ -44,8 +44,8 @@
         <span style="font-size: 22px;display: block;margin-bottom: 30px;margin-left: 10px;">宿舍通告</span>
         <el-timeline>
           <el-timeline-item v-for="(activity, index) in activities.slice(0, 8)" :key="index"
-                            :timestamp="activity.releaseTime">
-            <span style="font-size: 15px">{{ activity.title }}</span><br/>
+                            :timestamp="activity.time">
+            <span style="font-size: 15px" @click="print(activity)">{{ activity.title }}</span><br/>
             <!--                        <span style="font-size: 10px">{{ activity.content }}</span>-->
           </el-timeline-item>
         </el-timeline>
@@ -70,6 +70,17 @@
         </el-card>
       </div>
     </div>
+    <!--    公告详情-->
+    <el-dialog v-model="detailDialog" title="详情" width="50%">
+      <el-card>
+        <div v-html="text"></div>
+      </el-card>
+      <template #footer>
+              <span class="dialog-footer">
+                <el-button type="primary" @click="closeDetailDialog">确 定</el-button>
+              </span>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -80,6 +91,8 @@ import home_echarts from "@/components/home_echarts.vue";
 import request from "@/utils/index";
 import {onBeforeMount, reactive, ref} from "vue";
 
+let detailDialog = ref(false)
+let text = ref("")
 const activities = ref([])
 const NumList = reactive({
   studentNum: "",
@@ -100,6 +113,16 @@ const getStuNum = async () => {
     }
   });
 }
+
+const print = (activity) => {
+  detailDialog.value = true
+  text.value = activity.text
+}
+
+const closeDetailDialog = () => {
+  detailDialog.value = false
+}
+
 const getHaveRoomNum = async () => {
   request.get("/room/selectHaveRoomStuNum").then((res) => {
     if (res.data.code === 200) {
@@ -139,6 +162,7 @@ const getNoFullRoom = async () => {
 const getHomePageNotice = async () => {
   request.get("/notice/homePageNotice").then((res) => {
     if (res.data.code === 200) {
+      console.log(res.data.data)
       activities.value = res.data.data;
     } else {
       ElMessage({

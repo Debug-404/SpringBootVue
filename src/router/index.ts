@@ -33,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {title: "维修员信息"}
             },
             {
+                path: '/dormManagerInfo',
+                name: 'DormManagerInfo',
+                component: () => import("@/views/DormManagerInfo.vue")
+            },
+            {
                 path: '/buildingInfo',
                 name: 'BuildingInfo',
                 component: () => import("@/views/BuildingInfo.vue"),
@@ -49,12 +54,6 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'NoticeInfo',
                 component: () => import("@/views/NoticeInfo.vue"),
                 meta: {title: "公告信息"}
-            },
-            {
-                path: '/adjustRoomInfo',
-                name: 'AdjustRoomInfo',
-                component: () => import("@/views/AdjustRoomInfo.vue"),
-                meta: {title: "调宿申请"}
             },
             {
                 path: '/repairInfo',
@@ -79,12 +78,6 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'ApplyRepairInfo',
                 component: () => import("@/views/ApplyRepairInfo.vue"),
                 meta: {title: "申请报修"}
-            },
-            {
-                path: '/applyChangeRoom',
-                name: 'ApplyChangeRoom',
-                component: () => import("@/views/ApplyChangeRoom.vue"),
-                meta: {title: "调宿申请"}
             },
 
             {

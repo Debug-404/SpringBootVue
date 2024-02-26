@@ -9,6 +9,7 @@ export default {
         return {
             loading: true,
             dialogVisible: false,
+            evaluateVisible: false,
             detailDialog: false,
             search: "",
             currentPage: 1,
@@ -16,11 +17,13 @@ export default {
             total: 0,
             tableData: [],
             detail: {},
-            name: '',
-            userId: '',
+            evaluate: {},
+            sName: '',
+            sId: '',
             form: {
                 id: "",
-                sName: ""
+                sName: "",
+                finish: 0
             },
             room: {
                 dormRoomId: '',
@@ -46,9 +49,10 @@ export default {
     methods: {
         init() {
             this.form = JSON.parse(sessionStorage.getItem("user"));
-            console.log(this.form)
-            this.name = this.form.sName;
+            this.sName = this.form.name;
             this.sId = this.form.id;
+            this.room.dormRoomId = this.form.dormRoomId
+            this.room.dormBuildId = this.form.dormBuildId
         },
         async load() {
             request.get("/repair/find/" + this.sId, {
@@ -81,7 +85,14 @@ export default {
         showDetail(row) {
             this.detailDialog = true;
             this.$nextTick(() => {
+                console.log(row)
                 this.detail = row;
+            });
+        },
+        showEvaluate(row) {
+            this.evaluateVisible = true;
+            this.$nextTick(() => {
+                this.evaluate = row;
             });
         },
         closeDetails() {
@@ -91,7 +102,7 @@ export default {
             this.dialogVisible = true;
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
-                this.form.repairer = this.name
+                this.form.repairer = this.sName
                 this.form.dormBuildId = this.room.dormBuildId
                 this.form.dormRoomId = this.room.dormRoomId
             });
@@ -100,7 +111,6 @@ export default {
             this.$refs.form.validate(async (valid) => {
                 if (valid) {
                     //新增
-                    console.log(this.form)
                     await request.post("/repair/add", this.form).then((res) => {
                         if (res.data.code === 200) {
                             ElMessage({
@@ -120,9 +130,28 @@ export default {
                 }
             })
         },
+        update() {
+            console.log(this.evaluate)
+            request.put('/repair/update', this.evaluate).then(res => {
+                if (res.data.code === 200) {
+                    ElMessage({
+                        message: "评价成功",
+                        type: "success",
+                    });
+                    this.load();
+                    this.evaluateVisible = false
+                } else {
+                    ElMessage({
+                        message: res.data.message,
+                        type: "error",
+                    });
+                }
+            })
+        },
         cancel() {
             this.$refs.form.resetFields();
-            this.dialogVisible = false;
+            this.dialogVisible = false
+            this.evaluateVisible = false
         },
         handleSizeChange(pageSize) {
             //改变每页个数

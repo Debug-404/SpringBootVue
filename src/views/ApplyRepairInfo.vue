@@ -46,9 +46,10 @@
           <el-table-column label="订单创建时间" prop="orderBuildTime" sortable/>
           <el-table-column label="订单完成时间" prop="orderFinishTime" sortable/>
           <!--      操作栏-->
-          <el-table-column label="操作" width="74px">
+          <el-table-column label="操作" width="150px">
             <template #default="scope">
               <el-button icon="more-filled" @click="showDetail(scope.row)"></el-button>
+              <el-button v-if="scope.row.finish===1" icon="ChatLineSquare" @click="showEvaluate(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -70,13 +71,13 @@
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="楼宇号" prop="dormBuildId" style="margin-bottom: 27px">
-                <el-input v-model="form.dormBuildId" disabled style="width: 80%">{{ this.room.dormBuildId }}</el-input>
+                <el-input v-model="form.dormBuildId" disabled style="width: 80%">{{ this.form.dormBuildId }}</el-input>
               </el-form-item>
               <el-form-item label="房间号" prop="dormRoomId" style="margin-bottom: 27px">
-                <el-input v-model="form.dormRoomId" disabled style="width: 80%">{{ this.room.dormRoomId }}</el-input>
+                <el-input v-model="form.dormRoomId" disabled style="width: 80%">{{ this.form.dormRoomId }}</el-input>
               </el-form-item>
               <el-form-item label="申请人" prop="sname">
-                <el-input v-model="form.repairer" disabled style="width: 80%">{{ this.name }}</el-input>
+                <el-input v-model="form.repairer" disabled style="width: 80%">{{ this.sName }}</el-input>
               </el-form-item>
               <el-form-item label="标题" prop="type" style="margin-bottom: 27px">
                 <el-input v-model="form.type" clearable style="width: 80%"></el-input>
@@ -114,11 +115,28 @@
             <el-card>
               <div v-html="detail.content"></div>
             </el-card>
+            <br>
+            <span>评价</span>
+            <el-card v-if="detail.evaluate!==''">
+              <div v-html="detail.evaluate"></div>
+            </el-card>
             <template #footer>
               <span class="dialog-footer">
                 <el-button type="primary" @click="closeDetails">确 定</el-button>
               </span>
             </template>
+          </el-dialog>
+          <!--   评价弹窗-->
+          <el-dialog v-model="evaluateVisible" title="评价" width="30%" @close="evaluateVisible = false">
+            <el-form label-width="120px">
+              <el-form-item label="评价" style="margin-bottom: 27px">
+                <el-input v-model="evaluate.evaluate" placeholder="请对本次维修的评价" style="width: 80%"></el-input>
+              </el-form-item>
+              <el-form-item style="margin-bottom: 27px">
+                <el-button type="primary" @click="update">提交</el-button>
+              </el-form-item>
+            </el-form>
+
           </el-dialog>
         </div>
       </div>

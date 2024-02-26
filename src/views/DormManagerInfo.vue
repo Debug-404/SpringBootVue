@@ -3,7 +3,7 @@
     <el-breadcrumb separator-icon="ArrowRight" style="margin: 16px">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>维修员信息</el-breadcrumb-item>
+      <el-breadcrumb-item>宿管信息</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card style="margin: 15px; min-height: calc(100vh - 111px)">
       <div>
@@ -24,7 +24,7 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <!--          <el-table-column label="账号" prop="id" sortable/>-->
+          <el-table-column label="账号" prop="id" sortable/>
           <el-table-column label="姓名" prop="name"/>
           <el-table-column
               :filter-method="filterTag"
@@ -38,13 +38,13 @@
           />
           <el-table-column label="年龄" prop="age" sortable/>
           <el-table-column label="手机号" prop="phone"/>
-          <!--          <el-table-column label="邮箱" prop="email"/>-->
-          <!--          <el-table-column label="任职宿舍楼" prop="dormBuildId" sortable/>-->
+          <el-table-column label="邮箱" prop="email"/>
+          <el-table-column label="任职宿舍楼" prop="dormBuildId" sortable/>
           <!--      操作栏-->
           <el-table-column label="操作" width="130px">
             <template #default="scope">
               <el-button icon="Edit" type="primary" @click="handleEdit(scope.row)"></el-button>
-              <el-popconfirm title="确认删除？" @confirm="handleDelete(scope.row.phone)">
+              <el-popconfirm title="确认删除？" @confirm="handleDelete(scope.row.username)">
                 <template #reference>
                   <el-button icon="Delete" type="danger"></el-button>
                 </template>
@@ -70,7 +70,7 @@
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="账号" prop="id">
-                <el-input v-model="form.id" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
+                <el-input v-model="form.username" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input v-model="form.password" :disabled="disabled" :show-password="showpassword"
@@ -78,7 +78,7 @@
                 <el-tooltip content="修改密码" placement="right">
                   <el-icon :style="editDisplay" size="large" style="margin-left: 5px; cursor: pointer"
                            @click="EditPass">
-                    <Edit/>
+                    <edit/>
                   </el-icon>
                 </el-tooltip>
               </el-form-item>
@@ -95,8 +95,14 @@
                 <el-radio v-model="form.sex" label="男">男</el-radio>
                 <el-radio v-model="form.sex" label="女">女</el-radio>
               </el-form-item>
-              <el-form-item label="手机号" prop="phone">
+              <el-form-item label="手机号" prop="phoneNum">
                 <el-input v-model.number="form.phone" style="width: 80%"></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱地址" prop="email">
+                <el-input v-model="form.email" style="width: 80%"></el-input>
+              </el-form-item>
+              <el-form-item label="任职宿舍楼" prop="dormBuildId">
+                <el-input v-model="form.dormBuildId" style="width: 80%"></el-input>
               </el-form-item>
             </el-form>
             <template #footer>
@@ -111,4 +117,4 @@
     </el-card>
   </div>
 </template>
-<script src="../assets/js/WorkerInfo.js"></script>
+<script src="@/assets/js/DormManagerInfo.js"></script>
