@@ -35,7 +35,8 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: '/dormManagerInfo',
                 name: 'DormManagerInfo',
-                component: () => import("@/views/DormManagerInfo.vue")
+                component: () => import("@/views/DormManagerInfo.vue"),
+                meta: {title: "宿管信息"}
             },
             {
                 path: '/buildingInfo',

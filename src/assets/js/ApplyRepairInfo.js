@@ -1,6 +1,7 @@
 import request from "@/utils/index.ts";
 
 import {ElMessage} from "element-plus";
+import options from "@/assets/data/options.ts"
 
 export default {
     name: "ApplyRepairInfo",
@@ -18,8 +19,10 @@ export default {
             tableData: [],
             detail: {},
             evaluate: {},
-            sName: '',
-            sId: '',
+            studentName: '',
+            studentId: '',
+            studentPhone: "",
+            option: options,
             form: {
                 id: "",
                 sName: "",
@@ -30,7 +33,7 @@ export default {
                 dormBuildId: '',
             },
             rules: {
-                title: [{required: true, message: "请输入标题", trigger: "blur"}],
+                type: [{required: true, message: "请选择", trigger: "blur"}],
                 content: [{required: true, message: "请输入内容", trigger: "blur"}],
                 orderBuildTime: [{required: true, message: "请选择时间", trigger: "blur"},],
             },
@@ -49,13 +52,14 @@ export default {
     methods: {
         init() {
             this.form = JSON.parse(sessionStorage.getItem("user"));
-            this.sName = this.form.name;
-            this.sId = this.form.id;
+            this.studentName = this.form.name;
+            this.studentId = this.form.id;
+            this.studentPhone = this.form.phone;
             this.room.dormRoomId = this.form.dormRoomId
             this.room.dormBuildId = this.form.dormBuildId
         },
         async load() {
-            request.get("/repair/find/" + this.sId, {
+            request.get("/repair/find/" + this.studentId, {
                 params: {
                     pageNum: this.currentPage,
                     pageSize: this.pageSize,
@@ -68,7 +72,7 @@ export default {
             });
         },
         getInfo() {
-            request.get("/room/getMyRoom/" + this.sId).then((res) => {
+            request.get("/room/getMyRoom/" + this.studentId).then((res) => {
                 if (res.data.code === 200) {
                     this.room = res.data.data;
                 } else {
@@ -85,7 +89,6 @@ export default {
         showDetail(row) {
             this.detailDialog = true;
             this.$nextTick(() => {
-                console.log(row)
                 this.detail = row;
             });
         },
@@ -100,18 +103,24 @@ export default {
         },
         add() {
             this.dialogVisible = true;
+            console.log(this.form)
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
-                this.form.repairer = this.sName
+                this.form.studentName = this.studentName
+                this.form.studentId = this.studentId
+                this.form.studentPhone = this.studentPhone;
                 this.form.dormBuildId = this.room.dormBuildId
                 this.form.dormRoomId = this.room.dormRoomId
+                console.log(this.form)
             });
         },
         save() {
             this.$refs.form.validate(async (valid) => {
                 if (valid) {
+                    this.form.type = this.form.type.join("")
                     //新增
-                    await request.post("/repair/add", this.form).then((res) => {
+                    console.log(Date)
+                    request.post("/repair/add", this.form).then((res) => {
                         if (res.data.code === 200) {
                             ElMessage({
                                 message: "新增成功",

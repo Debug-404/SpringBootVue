@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import {ElMessage} from "element-plus";
 
 export default {
     name: "StuInfo",
@@ -58,7 +58,6 @@ export default {
                 age: "",
                 sex: "",
                 phone: "",
-                email: "",
                 dormBuildId: "",
             },
             rules: {
@@ -144,7 +143,7 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
+                console.log(res.data);
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;

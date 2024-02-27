@@ -11,38 +11,38 @@
       </el-icon>
       <span>首页</span>
     </el-menu-item>
-    <el-sub-menu v-if="judgeIdentity() === 3" index="2">
+    <el-sub-menu v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="2">
       <template #title>
         <el-icon>
           <User/>
         </el-icon>
         <span>用户管理</span>
       </template>
-      <el-menu-item v-if="judgeIdentity() !== (2||3)" index="/stuInfo">学生信息</el-menu-item>
-      <el-menu-item v-if="judgeIdentity() === (2||3)" index="/workerInfo">维修员信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="/stuInfo">学生信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="/workerInfo">维修员信息</el-menu-item>
       <el-menu-item v-if="judgeIdentity()===3" index="/dormManagerInfo">宿管信息</el-menu-item>
     </el-sub-menu>
-    <el-sub-menu v-if="judgeIdentity() === (2||3)" index="3">
+    <el-sub-menu v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="3">
       <template #title>
         <el-icon>
           <Coin/>
         </el-icon>
         <span>宿舍管理</span>
       </template>
-      <el-menu-item v-if="judgeIdentity() === (2||3)" index="/buildingInfo">楼宇信息</el-menu-item>
-      <el-menu-item v-if="judgeIdentity() === (2||3)" index="/roomInfo">房间信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="/buildingInfo">楼宇信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="/roomInfo">房间信息</el-menu-item>
     </el-sub-menu>
-    <el-sub-menu v-if="judgeIdentity() === (2||3)" index="4">
+    <el-sub-menu v-if="judgeIdentity() === 1||judgeIdentity() ===2||judgeIdentity() ===3" index="4">
       <template #title>
         <el-icon>
           <Message/>
         </el-icon>
         <span>信息管理</span>
       </template>
-      <el-menu-item v-if="judgeIdentity() === 2||3" index="/noticeInfo">公告信息</el-menu-item>
+      <el-menu-item v-if="judgeIdentity() === 2||judgeIdentity() ===3" index="/noticeInfo">公告信息</el-menu-item>
       <el-menu-item v-if="judgeIdentity() !== 0" index="/repairInfo">报修信息</el-menu-item>
     </el-sub-menu>
-    <el-menu-item v-if="judgeIdentity() === (2||3)" index="/visitorInfo">
+    <el-menu-item v-if="judgeIdentity() === 4" index="/visitorInfo">
       <svg class="icon" data-v-042ca774="" style="height: 18px; margin-right: 11px;" viewBox="0 0 1024 1024"
            xmlns="http://www.w3.org/2000/svg">
         <path

@@ -24,7 +24,7 @@
         <!--    表格-->
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" type="index"/>
-          <!--          <el-table-column label="账号" prop="id" sortable/>-->
+          <el-table-column label="账号" prop="id" sortable/>
           <el-table-column label="姓名" prop="name"/>
           <el-table-column
               :filter-method="filterTag"

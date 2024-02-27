@@ -38,7 +38,7 @@
           />
           <el-table-column label="年龄" prop="age" sortable/>
           <el-table-column label="手机号" prop="phone"/>
-          <el-table-column label="邮箱" prop="email"/>
+          <!--          <el-table-column label="邮箱" prop="email"/>-->
           <el-table-column label="任职宿舍楼" prop="dormBuildId" sortable/>
           <!--      操作栏-->
           <el-table-column label="操作" width="130px">
@@ -70,7 +70,7 @@
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="账号" prop="id">
-                <el-input v-model="form.username" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
+                <el-input v-model="form.id" :disabled="judgeAddOrEdit" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input v-model="form.password" :disabled="disabled" :show-password="showpassword"
@@ -95,11 +95,8 @@
                 <el-radio v-model="form.sex" label="男">男</el-radio>
                 <el-radio v-model="form.sex" label="女">女</el-radio>
               </el-form-item>
-              <el-form-item label="手机号" prop="phoneNum">
+              <el-form-item label="手机号" prop="phone">
                 <el-input v-model.number="form.phone" style="width: 80%"></el-input>
-              </el-form-item>
-              <el-form-item label="邮箱地址" prop="email">
-                <el-input v-model="form.email" style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="任职宿舍楼" prop="dormBuildId">
                 <el-input v-model="form.dormBuildId" style="width: 80%"></el-input>

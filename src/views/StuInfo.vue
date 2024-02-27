@@ -39,7 +39,7 @@
           />
           <el-table-column label="年龄" prop="age" sortable/>
           <el-table-column label="手机号" prop="phone"/>
-          <el-table-column :show-overflow-tooltip="true" label="邮箱" prop="email"/>
+          <!--          <el-table-column :show-overflow-tooltip="true" label="邮箱" prop="email"/>-->
           <!--      操作栏-->
           <el-table-column label="操作" width="130px">
             <template #default="scope">

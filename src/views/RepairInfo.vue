@@ -144,6 +144,11 @@
             <el-card>
               <div v-html="detail.content"></div>
             </el-card>
+            <br>
+            <span>评价</span>
+            <el-card v-if="detail.evaluate!==''">
+              <div v-html="detail.evaluate"></div>
+            </el-card>
             <template #footer>
               <span class="dialog-footer">
                 <el-button type="primary" @click="closeDetails">确 定</el-button>

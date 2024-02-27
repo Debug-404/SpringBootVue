@@ -25,7 +25,7 @@
           <el-table-column :show-overflow-tooltip="true" label="标题" prop="type"/>
           <el-table-column label="宿舍号" prop="dormBuildId" sortable width="150px"/>
           <el-table-column label="房间号" prop="dormRoomId" sortable width="150px"/>
-          <el-table-column label="申请人" prop="sname" width="150px"/>
+          <el-table-column label="申请人" prop="studentName" width="150px"/>
           <el-table-column
               :filter-method="filterTag"
               :filters="[
@@ -71,16 +71,18 @@
           <el-dialog v-model="dialogVisible" title="操作" width="30%" @close="cancel">
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="楼宇号" prop="dormBuildId" style="margin-bottom: 27px">
-                <el-input v-model="form.dormBuildId" disabled style="width: 80%">{{ this.form.dormBuildId }}</el-input>
+                <el-input v-model="form.dormBuildId" disabled style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="房间号" prop="dormRoomId" style="margin-bottom: 27px">
-                <el-input v-model="form.dormRoomId" disabled style="width: 80%">{{ this.form.dormRoomId }}</el-input>
+                <el-input v-model="form.dormRoomId" disabled style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="申请人" prop="sname">
-                <el-input v-model="form.repairer" disabled style="width: 80%">{{ this.sName }}</el-input>
+                <el-input v-model="form.studentName" disabled style="width: 80%"></el-input>
               </el-form-item>
               <el-form-item label="标题" prop="type" style="margin-bottom: 27px">
-                <el-input v-model="form.type" clearable style="width: 80%"></el-input>
+                <!--                <el-input v-model="form.type" clearable style="width: 80%"></el-input>-->
+                <el-cascader v-model="form.type" :options="option" :show-all-levels="false"
+                             clearable/>
               </el-form-item>
               <el-form-item label="内容" prop="content">
                 <el-input
