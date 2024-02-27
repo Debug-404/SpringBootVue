@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 
-const {ElMessage} = require("element-plus");
+const { ElMessage } = require("element-plus");
 export default {
     name: "AdjustRoomInfo",
     data() {
@@ -24,7 +24,6 @@ export default {
             });
         };
         const checkApplyState = (rule, value, callback) => {
-            console.log(this.form.finishTime)
             if (value === "通过" && this.form.finishTime !== null) {
                 callback();
             } else if (value === "驳回" && this.form.finishTime !== null) {
@@ -47,22 +46,22 @@ export default {
             orderState: false,
             rules: {
                 userId: [
-                    {required: true, message: "请输入学号", trigger: "blur"},
-                    {pattern: /^[a-zA-Z0-9]{4,9}$/, message: "必须由 2 到 5 个字母或数字组成", trigger: "blur",},
+                    { required: true, message: "请输入学号", trigger: "blur" },
+                    { pattern: /^[a-zA-Z0-9]{4,9}$/, message: "必须由 2 到 5 个字母或数字组成", trigger: "blur", },
                 ],
                 name: [
-                    {required: true, message: "请输入姓名", trigger: "blur"},
-                    {pattern: /^(?:[\u4E00-\u9FA5·]{2,10})$/, message: "必须由 2 到 10 个汉字组成", trigger: "blur",},
+                    { required: true, message: "请输入姓名", trigger: "blur" },
+                    { pattern: /^(?:[\u4E00-\u9FA5·]{2,10})$/, message: "必须由 2 到 10 个汉字组成", trigger: "blur", },
                 ],
                 currentRoomId: [
-                    {required: true, message: "请输入当前房间号", trigger: "blur"},
+                    { required: true, message: "请输入当前房间号", trigger: "blur" },
                 ],
                 currentBedId: [
-                    {required: true, message: "请输入当前床位号", trigger: "blur"},
+                    { required: true, message: "请输入当前床位号", trigger: "blur" },
                 ],
-                state: [{validator: checkApplyState, trigger: "blur"},],
-                towardsRoomId: [{validator: checkRoomState, trigger: "blur"}],
-                towardsBedId: [{validator: checkBedState, trigger: "blur"}],
+                state: [{ validator: checkApplyState, trigger: "blur" },],
+                towardsRoomId: [{ validator: checkRoomState, trigger: "blur" }],
+                towardsBedId: [{ validator: checkBedState, trigger: "blur" }],
             },
         }
     },
@@ -83,7 +82,7 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
+
                 this.tableData = res.data.records;
                 this.total = res.data.total;
                 this.loading = false;
@@ -98,7 +97,6 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res);
                 this.tableData = res.data.records;
                 this.total = res.data.total;
                 this.loading = false;
@@ -120,7 +118,6 @@ export default {
                     this.judgeOrderState(this.form.state)
                     //修改
                     request.put("/adjustRoom/update/" + this.orderState, this.form).then((res) => {
-                        console.log(res);
                         if (res.code === "0") {
                             ElMessage({
                                 message: "修改成功",

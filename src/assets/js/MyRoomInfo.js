@@ -1,6 +1,6 @@
-import request from "@/utils/request";
+import request from "@/utils/index.ts";
 
-const {ElMessage} = require("element-plus");
+import { ElMessage } from "element-plus";
 
 export default {
     name: "MyRoomInfo",
@@ -36,7 +36,6 @@ export default {
             request.get("/room/getMyRoom/" + this.name).then((res) => {
                 if (res.code === "0") {
                     this.room = res.data;
-                    console.log(this.room);
                 } else {
                     ElMessage({
                         message: res.msg,

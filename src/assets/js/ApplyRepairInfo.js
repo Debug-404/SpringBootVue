@@ -1,6 +1,6 @@
 import request from "@/utils/index.ts";
 
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 import options from "@/assets/data/options.ts"
 
 export default {
@@ -33,9 +33,9 @@ export default {
                 dormBuildId: '',
             },
             rules: {
-                type: [{required: true, message: "请选择", trigger: "blur"}],
-                content: [{required: true, message: "请输入内容", trigger: "blur"}],
-                orderBuildTime: [{required: true, message: "请选择时间", trigger: "blur"},],
+                type: [{ required: true, message: "请选择", trigger: "blur" }],
+                content: [{ required: true, message: "请输入内容", trigger: "blur" }],
+                orderBuildTime: [{ required: true, message: "请选择时间", trigger: "blur" },],
             },
         };
     },
@@ -103,7 +103,6 @@ export default {
         },
         add() {
             this.dialogVisible = true;
-            console.log(this.form)
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
                 this.form.studentName = this.studentName
@@ -111,7 +110,6 @@ export default {
                 this.form.studentPhone = this.studentPhone;
                 this.form.dormBuildId = this.room.dormBuildId
                 this.form.dormRoomId = this.room.dormRoomId
-                console.log(this.form)
             });
         },
         save() {
@@ -119,7 +117,6 @@ export default {
                 if (valid) {
                     this.form.type = this.form.type.join("")
                     //新增
-                    console.log(Date)
                     request.post("/repair/add", this.form).then((res) => {
                         if (res.data.code === 200) {
                             ElMessage({
@@ -140,7 +137,6 @@ export default {
             })
         },
         update() {
-            console.log(this.evaluate)
             request.put('/repair/update', this.evaluate).then(res => {
                 if (res.data.code === 200) {
                     ElMessage({

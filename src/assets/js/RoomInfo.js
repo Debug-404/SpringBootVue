@@ -1,6 +1,6 @@
 import request from "@/utils/index.ts";
 
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 
 export default {
     name: "BuildingInfo",
@@ -49,29 +49,29 @@ export default {
             },
             rules: {
                 dormBuildId: [
-                    {required: true, message: "请输入楼宇号数", trigger: "blur"},
-                    {pattern: /^[1-4]$/, message: "范围：1-4", trigger: "blur"},
+                    { required: true, message: "请输入楼宇号数", trigger: "blur" },
+                    { pattern: /^[1-4]$/, message: "范围：1-4", trigger: "blur" },
                 ],
                 dormRoomId: [
-                    {required: true, message: "请输入房间号", trigger: "blur"},
-                    {pattern: /^[0-9]{4}$/, message: "范围：1000-9999", trigger: "blur"},
+                    { required: true, message: "请输入房间号", trigger: "blur" },
+                    { pattern: /^[0-9]{4}$/, message: "范围：1000-9999", trigger: "blur" },
                 ],
                 floorNum: [
-                    {required: true, message: "请输入楼层数", trigger: "blur"},
-                    {pattern: /^[1-7]$/, message: "范围：1-7", trigger: "blur"},
+                    { required: true, message: "请输入楼层数", trigger: "blur" },
+                    { pattern: /^[1-7]$/, message: "范围：1-7", trigger: "blur" },
                 ],
                 maxCapacity: [
-                    {required: true, message: "请输入房间可住人数", trigger: "blur"},
-                    {pattern: /^[0-4]$/, message: "范围：0-4", trigger: "blur"},
+                    { required: true, message: "请输入房间可住人数", trigger: "blur" },
+                    { pattern: /^[0-4]$/, message: "范围：0-4", trigger: "blur" },
                 ],
                 currentCapacity: [
-                    {required: true, message: "请输入当前已住人数", trigger: "blur"},
-                    {pattern: /^[0-4]$/, message: "范围：0-4", trigger: "blur"},
+                    { required: true, message: "请输入当前已住人数", trigger: "blur" },
+                    { pattern: /^[0-4]$/, message: "范围：0-4", trigger: "blur" },
                 ],
-                firstBed: [{validator: checkStuNum, trigger: "blur"}],
-                secondBed: [{validator: checkStuNum, trigger: "blur"}],
-                thirdBed: [{validator: checkStuNum, trigger: "blur"}],
-                fourthBed: [{validator: checkStuNum, trigger: "blur"}],
+                firstBed: [{ validator: checkStuNum, trigger: "blur" }],
+                secondBed: [{ validator: checkStuNum, trigger: "blur" }],
+                thirdBed: [{ validator: checkStuNum, trigger: "blur" }],
+                fourthBed: [{ validator: checkStuNum, trigger: "blur" }],
             },
         };
     },
@@ -92,7 +92,6 @@ export default {
                     search: this.search,
                 },
             }).then((res) => {
-                console.log(res.data);
                 this.tableData = res.data.data.list;
                 this.total = res.data.data.total;
                 this.loading = false;
