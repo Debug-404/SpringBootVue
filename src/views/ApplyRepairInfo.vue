@@ -118,8 +118,8 @@
               <div v-html="detail.content"></div>
             </el-card>
             <br>
-            <span>评价</span>
-            <el-card v-if="detail.evaluate!==''">
+            <el-card v-if="detail.evaluate!==null">
+              <span>评价</span>
               <div v-html="detail.evaluate"></div>
             </el-card>
             <template #footer>

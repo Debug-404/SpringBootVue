@@ -26,12 +26,13 @@
         <el-table v-loading="loading" :data="tableData" border max-height="705" style="width: 100%">
           <el-table-column label="#" prop="id"/>
           <el-table-column :show-overflow-tooltip="true" label="标题" prop="type"/>
-          <el-table-column label="宿舍楼号码" prop="dormBuildId" sortable width="150px"/>
+          <el-table-column label="宿舍楼号码" prop="dormBuildId" sortable width="100px"/>
           <el-table-column label="房间号" prop="dormRoomId" sortable width="150px"/>
-          <el-table-column label="申请人" prop="sname" width="150px"/>
-          <el-table-column label="申请人电话" prop="sphone" width="150px"/>
-          <el-table-column label="维修人" prop="rname" width="150px"/>
-          <el-table-column label="维修人电话" prop="rphone" width="150px"/>
+          <el-table-column label="申请人" prop="studentName" width="150px"/>
+          <el-table-column label="申请人电话" prop="studentPhone" width="150px"/>
+          <el-table-column label="维修人员工号" prop="workerId" width="150px"/>
+          <el-table-column label="维修人员名字" prop="workerName" width="150px"/>
+          <el-table-column label="维修人员电话" prop="workerPhone" width="150px"/>
           <el-table-column :filter-method="filterTag"
                            :filters="[
               { text: '完成', value: '完成' },
@@ -93,8 +94,8 @@
                 <el-input v-model="form.dormRoomId" clearable style="width: 50%"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="申请人" prop="repairer">
-                <el-input v-model="form.repairer" clearable style="width: 50%"></el-input>
+              <el-form-item label="申请人" prop="studentName">
+                <el-input v-model="form.studentName" clearable style="width: 50%"></el-input>
               </el-form-item>
               <el-form-item label="内容" prop="content">
                 <el-input
@@ -145,8 +146,8 @@
               <div v-html="detail.content"></div>
             </el-card>
             <br>
-            <span>评价</span>
-            <el-card v-if="detail.evaluate!==''">
+            <el-card v-if="detail.evaluate!==null">
+              <span>评价</span>
               <div v-html="detail.evaluate"></div>
             </el-card>
             <template #footer>

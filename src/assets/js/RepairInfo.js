@@ -1,7 +1,7 @@
 import request from "@/utils/index";
 
-import { ElMessage } from "element-plus";
-import { useCounterStore } from "@/stores";
+import {ElMessage} from "element-plus";
+import {useCounterStore} from "@/stores";
 
 const Store = useCounterStore()
 export default {
@@ -39,15 +39,15 @@ export default {
                 orderFinishTime: "",
             },
             rules: {
-                type: [{ required: true, message: "请输入标题", trigger: "blur" }],
-                content: [{ required: true, message: "请输入内容", trigger: "blur" }],
-                repairer: [
-                    { required: true, message: "请输入申请人", trigger: "blur" },
+                type: [{required: true, message: "请输入标题", trigger: "blur"}],
+                content: [{required: true, message: "请输入内容", trigger: "blur"}],
+                studentName: [
+                    {required: true, message: "请输入申请人", trigger: "blur"},
                 ],
                 orderBuildTime: [
-                    { required: true, message: "请选择时间", trigger: "blur" },
+                    {required: true, message: "请选择时间", trigger: "blur"},
                 ],
-                state: [{ validator: checkOrderState, trigger: "blur" }],
+                state: [{validator: checkOrderState, trigger: "blur"}],
             },
             finishTime: {
                 display: "none",
@@ -107,7 +107,7 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.resetFields();
                 this.buildTimeDisabled = false;
-                this.finishTime = { display: "none" };
+                this.finishTime = {display: "none"};
                 this.disabled = false;
                 this.form = {};
                 this.judge = false;
@@ -171,7 +171,7 @@ export default {
                 this.form = JSON.parse(JSON.stringify(row));
                 this.disabled = true;
                 this.buildTimeDisabled = true;
-                this.finishTime = { display: "flex" };
+                this.finishTime = {display: "flex"};
             });
         },
         handleDelete(id) {

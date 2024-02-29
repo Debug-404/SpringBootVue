@@ -107,15 +107,20 @@ export default {
             },
         };
     },
-    created() {
-        this.load();
-        this.find();
+    async created() {
+
+        setTimeout(() => {
+            //设置延迟执行
+            this.load();
+            this.find();
+        }, 100);
     },
     methods: {
         //获取个人信息页面信息
-        load() {
+        async load() {
             this.form = JSON.parse(sessionStorage.getItem("user"));
             this.identity = JSON.parse(sessionStorage.getItem("identity"));
+            console.log(this.form)
             this.id = this.form.id;
             this.name = this.form.name;
             this.sex = this.form.sex;
