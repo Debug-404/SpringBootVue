@@ -75,7 +75,8 @@
 <script setup>
 import {onMounted, reactive} from "vue"
 
-import {Coin, House, Message, School, Setting, SetUp, TakeawayBox, User} from "@element-plus/icons-vue"
+import {Coin, House, Message, School, Setting, SetUp, User} from "@element-plus/icons-vue"
+import {ElMessage} from "element-plus";
 import {useRoute, useRouter} from "vue-router"
 import {useCounterStore} from "@/stores"
 import request from "@/utils/index"
@@ -92,7 +93,7 @@ const Data = reactive({
 })
 
 onMounted(async () => {
-  await init()
+  init()
 })
 
 const init = () => {

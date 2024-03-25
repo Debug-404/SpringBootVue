@@ -24,36 +24,38 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {computed, reactive, ref} from "vue";
+import { computed, reactive, ref } from "vue";
 import request from "@/utils/index";
 
-import {ElMessage, type FormInstance} from "element-plus";
-import {useRouter} from "vue-router";
-import {useCounterStore} from "@/stores";
+import { ElMessage, type FormInstance } from "element-plus";
+import { useRouter } from "vue-router";
+import { useCounterStore } from "@/stores";
 
 const router = useRouter()
 const Store = useCounterStore()
 const ruleFormRef = ref<FormInstance>()
 
-const form = reactive({
-  id: "",
-  password: "",
-  identity: "",
-})
+
 
 const rules = reactive({
   id: [
-    {required: true, message: "请输入用户名", trigger: "blur"},
+    { required: true, message: "请输入用户名", trigger: "blur" },
   ],
-  password: [{required: true, message: "请输入密码", trigger: "blur"}],
-  identity: [{required: true, message: "请选择身份", trigger: "blur"}],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+  identity: [{ required: true, message: "请选择身份", trigger: "blur" }],
 })
 
 let disabled = computed(() => {
-  const {id, password, identity} = form;
+  const { id, password, identity } = form;
   return Boolean(id && password && identity);
 })
-
+//表单
+const form = reactive({
+  id: "",//id
+  password: "",//密码
+  identity: "",//身份
+})
+//登录
 const login = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid: boolean) => {
@@ -68,7 +70,7 @@ const login = (formEl: FormInstance | undefined) => {
           Store.identity = form.identity;
           window.sessionStorage.setItem("user", JSON.stringify(res.data.data));
           window.sessionStorage.setItem("identity", JSON.stringify(String(form.identity)));
-          router.replace({path: "/home"});
+          router.replace({ path: "/home" });
         } else {
           ElMessage({
             message: res.data.message,
@@ -89,15 +91,15 @@ const login = (formEl: FormInstance | undefined) => {
   top: 0;
   left: 0;
   background: linear-gradient(135deg,
-  hsl(170deg, 80%, 70%),
-  hsl(190deg, 80%, 70%),
-  hsl(250deg, 80%, 70%),
-  hsl(320deg, 80%, 70%),
-  hsl(320deg, 80%, 70%),
-  hsl(250deg, 80%, 70%),
-  hsl(190deg, 80%, 70%),
-  hsl(190deg, 80%, 70%),
-  hsl(170deg, 80%, 70%));
+      hsl(170deg, 80%, 70%),
+      hsl(190deg, 80%, 70%),
+      hsl(250deg, 80%, 70%),
+      hsl(320deg, 80%, 70%),
+      hsl(320deg, 80%, 70%),
+      hsl(250deg, 80%, 70%),
+      hsl(190deg, 80%, 70%),
+      hsl(190deg, 80%, 70%),
+      hsl(170deg, 80%, 70%));
   background-size: 600%;
   animation: myanimation 15s linear infinite;
 }

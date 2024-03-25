@@ -1,7 +1,7 @@
 import request from "@/utils/index.ts";
 import E from "wangeditor";
 
-import { ElMessage } from "element-plus"
+import {ElMessage} from "element-plus"
 
 let editor;
 export default {
@@ -31,10 +31,10 @@ export default {
                 time: "",
             },
             rules: {
-                title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-                text: [{ required: true, message: "请输入内容", trigger: "blur" }],
+                title: [{required: true, message: "请输入标题", trigger: "blur"}],
+                text: [{required: true, message: "请输入内容", trigger: "blur"}],
                 time: [
-                    { required: true, message: "请选择时间", trigger: "blur" },
+                    {required: true, message: "请选择时间", trigger: "blur"},
                 ],
             },
         };
@@ -95,7 +95,6 @@ export default {
         },
         add() {
             this.form.author = this.author;
-
             this.dialogVisible = true;
             this.$nextTick(() => {
                 if (this.$refs.form !== undefined) {
