@@ -63,12 +63,6 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {title: "报修信息"}
             },
             {
-                path: '/visitorInfo',
-                name: 'VisitorInfo',
-                component: () => import("@/views/VisitorInfo.vue"),
-                meta: {title: "访客管理"}
-            },
-            {
                 path: '/myRoomInfo',
                 name: 'MyRoomInfo',
                 component: () => import("@/views/MyRoomInfo.vue"),

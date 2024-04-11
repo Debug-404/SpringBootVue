@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div style="width: 400px; margin: 150px auto">
-      <div style="color: black; font-size: 30px; text-align: left; padding: 30px 0">登陆</div>
+      <div style="color: black; font-size: 30px; text-align: left; padding: 30px 0">登 录</div>
       <el-form ref="ruleFormRef" :model="form" :rules="rules" size="large">
         <el-form-item prop="id">
           <el-input v-model="form.id" clearable prefix-icon="avatar"></el-input>
@@ -24,29 +24,28 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
+import {computed, reactive, ref} from "vue";
 import request from "@/utils/index";
 
-import { ElMessage, type FormInstance } from "element-plus";
-import { useRouter } from "vue-router";
-import { useCounterStore } from "@/stores";
+import {ElMessage, type FormInstance} from "element-plus";
+import {useRouter} from "vue-router";
+import {useCounterStore} from "@/stores";
 
 const router = useRouter()
 const Store = useCounterStore()
 const ruleFormRef = ref<FormInstance>()
 
 
-
 const rules = reactive({
   id: [
-    { required: true, message: "请输入用户名", trigger: "blur" },
+    {required: true, message: "请输入用户名", trigger: "blur"},
   ],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-  identity: [{ required: true, message: "请选择身份", trigger: "blur" }],
+  password: [{required: true, message: "请输入密码", trigger: "blur"}],
+  identity: [{required: true, message: "请选择身份", trigger: "blur"}],
 })
 
 let disabled = computed(() => {
-  const { id, password, identity } = form;
+  const {id, password, identity} = form;
   return Boolean(id && password && identity);
 })
 //表单
@@ -70,7 +69,7 @@ const login = (formEl: FormInstance | undefined) => {
           Store.identity = form.identity;
           window.sessionStorage.setItem("user", JSON.stringify(res.data.data));
           window.sessionStorage.setItem("identity", JSON.stringify(String(form.identity)));
-          router.replace({ path: "/home" });
+          router.replace({path: "/home"});
         } else {
           ElMessage({
             message: res.data.message,
@@ -91,15 +90,15 @@ const login = (formEl: FormInstance | undefined) => {
   top: 0;
   left: 0;
   background: linear-gradient(135deg,
-      hsl(170deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(250deg, 80%, 70%),
-      hsl(320deg, 80%, 70%),
-      hsl(320deg, 80%, 70%),
-      hsl(250deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(190deg, 80%, 70%),
-      hsl(170deg, 80%, 70%));
+  hsl(170deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(250deg, 80%, 70%),
+  hsl(320deg, 80%, 70%),
+  hsl(320deg, 80%, 70%),
+  hsl(250deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(190deg, 80%, 70%),
+  hsl(170deg, 80%, 70%));
   background-size: 600%;
   animation: myanimation 15s linear infinite;
 }
