@@ -1,7 +1,7 @@
 <template>
   <el-menu :default-active="Data.path" :router="true" router
            style="width: 200px; height:100%; min-height: calc(100vh - 40px)"
-           unique-opened>
+  >
     <div style="display: flex;align-items: center;justify-content: center;padding: 11px 0;">
       <img alt="" src="../assets/img/logo.png" style="width: 60px;">
     </div>
